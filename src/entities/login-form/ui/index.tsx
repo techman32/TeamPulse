@@ -17,7 +17,7 @@ export default function LogInForm() {
     const success = await store.submit()
     setLoading(false)
     if (success) {
-      router.replace('/')
+      router.replace('/dashboard')
     } else {
       setError(true)
     }
