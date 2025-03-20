@@ -14,16 +14,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(
-      `http://193.164.150.39/api/v1/groups?limit=${limit}&offset=${offset}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+    const response = await fetch(`http://193.164.150.39/api/v1/templates?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
-    )
+    })
 
     if (response.status === 200) {
       const data = await response.json()
@@ -38,7 +35,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Ошибка при получении списка групп',
+      message: 'Ошибка при получении списка шаблонов',
       status: response.status,
     })
   } catch (error) {
@@ -61,7 +58,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`http://193.164.150.39/api/v1/groups`, {
+    const response = await fetch(`http://193.164.150.39/api/v1/templates`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -84,7 +81,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Ошибка при создании группы',
+      message: 'Ошибка при создании шаблона',
       status: response.status,
     })
   } catch (error) {

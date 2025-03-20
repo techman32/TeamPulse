@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
   try {
     const response = await fetch(
-      `http://193.164.150.39/api/v1/groups?limit=${limit}&offset=${offset}`,
+      `http://193.164.150.39/api/v1/tags?limit=${limit}&offset=${offset}`,
       {
         method: 'GET',
         headers: {
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Ошибка при получении списка групп',
+      message: 'Ошибка при получении списка тегов',
       status: response.status,
     })
   } catch (error) {
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`http://193.164.150.39/api/v1/groups`, {
+    const response = await fetch(`http://193.164.150.39/api/v1/tags`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Ошибка при создании группы',
+      message: 'Ошибка при создании тега',
       status: response.status,
     })
   } catch (error) {

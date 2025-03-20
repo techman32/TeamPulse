@@ -1,4 +1,4 @@
-import { User } from '@/shared/lib/types'
+import { CreatedTemplate, Tag, User } from '@/shared/lib/types'
 
 export const logIn = async (login: string, password: string) => {
   try {
@@ -15,16 +15,13 @@ export const logIn = async (login: string, password: string) => {
 
 export const getUsers = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/users?limit=${limit}&offset=${offset}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+    const response = await fetch(`http://localhost:3000/api/users?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      credentials: 'include',
+    })
     return await response.json()
   } catch (error) {
     console.error('Ошибка при получении списка пользователей: ', error)
@@ -33,19 +30,46 @@ export const getUsers = async (limit: number, offset: number) => {
 
 export const getGroups = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/api/groups?limit=${limit}&offset=${offset}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+    const response = await fetch(`http://localhost:3000/api/groups?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+      credentials: 'include',
+    })
     return await response.json()
   } catch (error) {
     console.error('Ошибка при получении списка групп: ', error)
+  }
+}
+
+export const getTags = async (limit: number, offset: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tags?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении списка тегов: ', error)
+  }
+}
+
+export const getTemplates = async (limit: number, offset: number) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tests/templates?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении списка шаблонов: ', error)
   }
 }
 
@@ -63,5 +87,56 @@ export const setUser = async (data: User) => {
     return await response.json()
   } catch (error) {
     console.error('Ошибка при создании пользователя: ', error)
+  }
+}
+
+export const setTag = async (data: Tag) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tags`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при создании тега: ', error)
+  }
+}
+
+export const setGroup = async (data: Tag) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/groups`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при создании группы: ', error)
+  }
+}
+
+export const setTemplate = async (data: CreatedTemplate) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/templates`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при создании шаблона: ', error)
   }
 }

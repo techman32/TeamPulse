@@ -14,16 +14,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(
-      `http://193.164.150.39/api/v1/users?limit=${limit}&offset=${offset}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+    const response = await fetch(`http://193.164.150.39/api/v1/users?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
-    )
+    })
 
     if (response.status === 200) {
       const data = await response.json()
@@ -71,8 +68,6 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(data),
     })
 
-    console.log('ачибка', response)
-    console.log('данные', data)
     if (response.status === 200) {
       const data = await response.json()
       return NextResponse.json(data)
