@@ -23,6 +23,7 @@ export default function Button({
           buttonType === 'default',
         'opacity-60': loading,
         'w-full': block,
+        'min-w-max max-w-12': !block,
       })}
       {...props}
     >

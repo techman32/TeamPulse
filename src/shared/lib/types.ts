@@ -4,7 +4,7 @@ export type Group = {
 }
 
 export type User = {
-  id: string
+  id?: string
   fullName: {
     firstName: string
     lastName: string
@@ -12,6 +12,6 @@ export type User = {
   login: string
   email: string
   role: string
-  groups: Group[]
-  createdAt: string
+  groups: Group[] | string[]
+  createdAt?: string
 }
