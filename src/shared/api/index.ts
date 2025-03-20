@@ -60,7 +60,7 @@ export const getTags = async (limit: number, offset: number) => {
 
 export const getTemplates = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests/templates?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`http://localhost:3000/api/templates?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

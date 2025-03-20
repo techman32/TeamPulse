@@ -17,9 +17,9 @@ export default function TemplatesTable() {
 
   const fetchTemplates = async (page: number) => {
     const offset = (page - 1) * itemsPerPage
-    const { total, templates }: { total: number; templates: Template[] } = await getTemplates(itemsPerPage, offset)
-    if (templates) {
-      setTemplates(templates)
+    const { total, tests }: { total: number; tests: Template[] } = await getTemplates(itemsPerPage, offset)
+    if (tests) {
+      setTemplates(tests)
       setTotal(total)
     }
   }
@@ -41,6 +41,7 @@ export default function TemplatesTable() {
     'Дата создания': new Date(template.createdAt).toLocaleString(),
     'Дата обновления': new Date(template.updatedAt).toLocaleString(),
   }))
+
   return (
     <div className="flex flex-col gap-4">
       <Table columns={columns} data={formattedData} />
