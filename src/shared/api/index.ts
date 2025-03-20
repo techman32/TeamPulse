@@ -11,15 +11,18 @@ export const logIn = async (login: string, password: string) => {
   }
 }
 
-export const getUsers = async () => {
+export const getUsers = async (limit: number, offset: number) => {
   try {
-    const response = await fetch('http://localhost:3000/api/users', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `http://localhost:3000/api/users?limit=${limit}&offset=${offset}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
       },
-      credentials: 'include',
-    })
+    )
     return await response.json()
   } catch (error) {
     console.error('Ошибка при получении списка пользователей: ', error)

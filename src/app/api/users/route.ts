@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
+  const { searchParams } = req.nextUrl
+  const offset = searchParams.get('offset')
+  const limit = searchParams.get('limit')
   const token = req.cookies.get('auth_token')?.value
 
   if (!token) {
@@ -11,13 +14,16 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch('http://193.164.150.39/api/v1/users', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
+    const response = await fetch(
+      `http://193.164.150.39/api/v1/users?limit=${limit}&offset=${offset}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
       },
-    })
+    )
 
     if (response.status === 200) {
       const data = await response.json()
