@@ -10,10 +10,6 @@ export default function TemplateCreateForm() {
     store.addTest()
   }
 
-  const handleDeleteTest = (testId: string) => {
-    store.deleteTest(testId)
-  }
-
   return (
     <div className="border border-gray-200 rounded-md p-4 flex flex-col gap-2">
       {store.tests.length > 0 &&
@@ -25,9 +21,6 @@ export default function TemplateCreateForm() {
               onChange={(event) => store.setTopic(test.id, event.target.value)}
             />
             <Questions testId={test.id} />
-            <div className="flex justify-end">
-              <Button text="Удалить тему" buttonType="danger" onClick={() => handleDeleteTest(test.id)} />
-            </div>
           </div>
         ))}
       <div>

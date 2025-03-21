@@ -27,6 +27,10 @@ export default function Questions({ testId }: QuestionsProps) {
     if (tags) setTagsList(tags)
   }
 
+  const handleDeleteTest = (testId: string) => {
+    store.deleteTest(testId)
+  }
+
   return (
     <div className="flex flex-col gap-2">
       {test && test.questions.length > 0 && (
@@ -60,32 +64,33 @@ export default function Questions({ testId }: QuestionsProps) {
                   })
                 }
               />
-              <ButtonDropdown
-                buttonText="Добавить теги"
-                options={tags}
-                selected={question.tags.map((tag) => ({ name: tag }))}
-                getLabel={(option) => option.name}
-                getValue={(option) => option.name}
-                onChange={(selected) => {
-                  store.updateQuestion(testId, question.id, {
-                    tags: selected.map((s) => s.name),
-                  })
-                }}
-              />
-              {(question.type === 1 || question.type === 2) && <Answers testId={test.id} questionId={question.id} />}
-              <div className="flex justify-end">
+              <div className="flex justify-between">
+                <ButtonDropdown
+                  buttonText="Добавить теги"
+                  options={tags}
+                  selected={question.tags.map((tag) => ({ name: tag }))}
+                  getLabel={(option) => option.name}
+                  getValue={(option) => option.name}
+                  onChange={(selected) => {
+                    store.updateQuestion(testId, question.id, {
+                      tags: selected.map((s) => s.name),
+                    })
+                  }}
+                />
                 <Button
                   text="Удалить вопрос"
                   buttonType="danger"
                   onClick={() => store.deleteQuestion(testId, question.id)}
                 />
               </div>
+              {(question.type === 1 || question.type === 2) && <Answers testId={test.id} questionId={question.id} />}
             </div>
           ))}
         </div>
       )}
-      <div>
+      <div className="flex justify-between">
         <Button text="Добавить вопрос" color="secondary" onClick={() => store.addQuestion(testId)} />
+        <Button text="Удалить тему" buttonType="danger" onClick={() => handleDeleteTest(testId)} />
       </div>
     </div>
   )
