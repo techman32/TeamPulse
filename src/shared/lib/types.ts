@@ -93,7 +93,8 @@ export type AssignedTest = {
   topics: {
     id: string
     name: string
-  }
+    completionStatus: string
+  }[]
   subjectFullName: {
     firstName: string
     lastName: string
@@ -101,6 +102,7 @@ export type AssignedTest = {
 } & Test
 
 export type AssignedQuestion = {
+  id: string
   text: string
   answerType: number
   answers: Answer[]

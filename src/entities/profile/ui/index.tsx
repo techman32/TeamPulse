@@ -1,12 +1,12 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { getUser } from '@/shared/api'
 import { User } from '@/shared/lib/types'
 import Tabs from '@/entities/tabs/ui'
 import ProfileShort from '@/entities/profile-short/ui'
+import AssignedTestsList from '@/entities/assigned-tests-list/ui'
 
-export default function Profile({ id }: { id?: string }) {
+export default function Profile({ id, role }: { id?: string; role?: string }) {
   const [user, setUser] = useState<User | null>(null)
   const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'tests'>('profile')
 
@@ -40,7 +40,7 @@ export default function Profile({ id }: { id?: string }) {
           <div className="mt-4">
             {activeTab === 'profile' && <ProfileShort user={user} />}
             {activeTab === 'account' && <p>Настройки аккаунта</p>}
-            {activeTab === 'tests' && <p>Тесты</p>}
+            {activeTab === 'tests' && role === 'employee' && <AssignedTestsList />}
           </div>
         </div>
       )}

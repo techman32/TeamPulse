@@ -107,7 +107,7 @@ export const setTest = async (data: CreatedTest) => {
   }
 }
 
-export const getTests = async (limit: number, offset: number) => {
+export const getTests = async (limit?: number, offset?: number) => {
   try {
     const response = await fetch(`http://localhost:3000/api/tests?limit=${limit}&offset=${offset}`, {
       method: 'GET',
@@ -190,5 +190,20 @@ export const getUser = async (id?: string) => {
     return response.json()
   } catch (error) {
     console.error(`Произошла ошибка при получении пользователя: ${error}`)
+  }
+}
+
+export const getTest = async (testId: string, topicId: string) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tests/${testId}?topicId=${topicId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении теста: ', error)
   }
 }
