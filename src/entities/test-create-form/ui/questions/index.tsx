@@ -33,7 +33,7 @@ export default function Questions({ testId }: QuestionsProps) {
         <div className="border border-gray-200 rounded-md p-4 flex flex-col gap-4">
           <h2 className="font-semibold">Вопросы</h2>
           {test.questions.map((question, index) => (
-            <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
+            <div key={question.id} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
               <h2 className="font-semibold">Вопрос {++index}</h2>
               {question.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1">
@@ -73,6 +73,13 @@ export default function Questions({ testId }: QuestionsProps) {
                 }}
               />
               {(question.type === 1 || question.type === 2) && <Answers testId={test.id} questionId={question.id} />}
+              <div className="flex justify-end">
+                <Button
+                  text="Удалить вопрос"
+                  buttonType="danger"
+                  onClick={() => store.deleteQuestion(testId, question.id)}
+                />
+              </div>
             </div>
           ))}
         </div>

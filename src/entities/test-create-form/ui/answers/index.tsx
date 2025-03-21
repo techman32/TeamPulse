@@ -21,7 +21,7 @@ export default function Answers({ testId, questionId }: AnswersProps) {
           <h2 className="font-semibold">Ответы</h2>
           {question &&
             question.answers.map((answer, index) => (
-              <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
+              <div key={answer.id} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
                 <h2 className="font-semibold">Ответ {++index}</h2>
                 <Input
                   placeholder="Введите ответ"
@@ -58,6 +58,13 @@ export default function Answers({ testId, questionId }: AnswersProps) {
                       />
                     </div>
                   ))}
+                <div className="flex justify-end">
+                  <Button
+                    text="Удалить ответ"
+                    buttonType="danger"
+                    onClick={() => store.deleteAnswer(testId, question.id, answer.id)}
+                  />
+                </div>
               </div>
             ))}
         </div>

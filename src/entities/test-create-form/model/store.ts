@@ -37,8 +37,11 @@ type TestTemplate = {
   setTopic: (testId: string, topic: string) => void
   setStatus: (status: string) => void
   addTest: () => void
+  deleteTest: (testId: string) => void
   addQuestion: (testId: string) => void
+  deleteQuestion: (testId: string, questionId: string) => void
   updateQuestion: (testId: string, questionId: string, data: Partial<Question>) => void
+  deleteAnswer: (testId: string, questionId: string, answerId: string) => void
   submit: () => Promise<void>
 }
 
@@ -65,6 +68,10 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
         },
       ],
     })),
+  deleteTest: (testId: string) =>
+    set((state) => ({
+      tests: state.tests.filter((test) => test.id !== testId),
+    })),
   addQuestion: (testId: string) =>
     set((state) => ({
       tests: state.tests.map((test) =>
@@ -85,6 +92,24 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
           : test,
       ),
     })),
+  deleteAnswer: (testId: string, questionId: string, answerId: string) =>
+    set((state) => ({
+      tests: state.tests.map((test) =>
+        test.id === testId
+          ? {
+              ...test,
+              questions: test.questions.map((question) =>
+                question.id === questionId
+                  ? {
+                      ...question,
+                      answers: question.answers.filter((answer) => answer.id !== answerId),
+                    }
+                  : question,
+              ),
+            }
+          : test,
+      ),
+    })),
   updateQuestion: (testId: string, questionId: string, data: Partial<Question>) =>
     set((state) => ({
       tests: state.tests.map((test) =>
@@ -94,6 +119,17 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
               questions: test.questions.map((question) =>
                 question.id === questionId ? { ...question, ...data } : question,
               ),
+            }
+          : test,
+      ),
+    })),
+  deleteQuestion: (testId: string, questionId: string) =>
+    set((state) => ({
+      tests: state.tests.map((test) =>
+        test.id === testId
+          ? {
+              ...test,
+              questions: test.questions.filter((question) => question.id !== questionId),
             }
           : test,
       ),
