@@ -17,9 +17,9 @@ export default function TemplatesTable() {
 
   const fetchTemplates = async (page: number) => {
     const offset = (page - 1) * itemsPerPage
-    const { total, tests }: { total: number; tests: Template[] } = await getTemplates(itemsPerPage, offset)
-    if (tests) {
-      setTemplates(tests)
+    const { total, templates } = await getTemplates(itemsPerPage, offset)
+    if (templates) {
+      setTemplates(templates)
       setTotal(total)
     }
   }
@@ -36,7 +36,7 @@ export default function TemplatesTable() {
   const formattedData = templates.map((template) => ({
     'Название': template.name,
     'Описание': template.description,
-    'Статус': template.status,
+    'Статус': template.status === 'done' ? 'Готовый' : 'Черновик',
     'Автор': template.authorLogin,
     'Дата создания': new Date(template.createdAt).toLocaleString(),
     'Дата обновления': new Date(template.updatedAt).toLocaleString(),

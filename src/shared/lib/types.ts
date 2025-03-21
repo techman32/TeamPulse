@@ -67,7 +67,7 @@ export type CreatedTemplate = {
 export type CreatedTest = {
   name: string
   description: string
-  testId: string
+  templateId: string
   subjectId?: string
   lateResult: boolean
   isAnonymous: boolean
@@ -84,6 +84,7 @@ export type Test = {
   name: string
   description: string
   assignerLogin: string
+  subjectLogin: string
   startDate: string
   endDate: string
   status: string

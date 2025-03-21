@@ -6,10 +6,11 @@ import { User } from '@/shared/lib/types'
 
 interface DropdownGroupsProps {
   selected: string[]
+  multiple?: boolean
   onSelectAction: (values: string[]) => void
 }
 
-export default function DropdownUsers({ selected, onSelectAction }: DropdownGroupsProps) {
+export default function DropdownUsers({ selected, onSelectAction, multiple = true }: DropdownGroupsProps) {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function DropdownUsers({ selected, onSelectAction }: DropdownGrou
       // @ts-ignore
       displayKey={['firstName', 'lastName']}
       valueKey="id"
-      multiple
+      multiple={multiple}
       onSelectAction={onSelectAction}
     />
   )
