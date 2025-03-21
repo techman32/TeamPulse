@@ -114,7 +114,7 @@ export default function TestAssignForm() {
         )}
       </div>
       <div>
-        <Button text="Назначить" buttonType="primary" onClick={() => console.log(store)} />
+        <Button text="Назначить" buttonType="primary" onClick={() => store.submit()} />
       </div>
     </>
   )

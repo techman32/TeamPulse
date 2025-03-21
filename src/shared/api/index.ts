@@ -92,7 +92,7 @@ export const setUser = async (data: User) => {
 
 export const setTest = async (data: CreatedTest) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/templates/assign`, {
+    const response = await fetch(`http://localhost:3000/api/tests/assign`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

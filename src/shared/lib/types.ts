@@ -83,11 +83,10 @@ export type Test = {
   id: string
   name: string
   description: string
-  assignerLogin: string
   subjectLogin: string
+  isAnonymous: boolean
   startDate: string
   endDate: string
-  status: string
 }
 
 export type AssignedTest = {

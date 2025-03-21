@@ -32,15 +32,14 @@ export default function TestsTable() {
     if (currentPage < Math.ceil(total / itemsPerPage)) setCurrentPage(currentPage + 1)
   }
 
-  const columns = ['Название', 'Описание', 'Назначенный', 'Дата начала', 'Дата окончания', 'Субъект', 'Статус']
+  const columns = ['Название', 'Описание', 'Анонимный', 'Дата начала', 'Дата окончания', 'Субъект']
   const formattedData = tests.map((test) => ({
     'Название': test.name,
     'Описание': test.description,
-    'Назначенный': test.assignerLogin,
+    'Анонимный': test.isAnonymous ? 'Да' : 'Нет',
     'Дата начала': new Date(test.startDate).toLocaleString(),
     'Дата окончания': new Date(test.endDate).toLocaleString(),
     'Субъект': `${test.subjectFullName.firstName} ${test.subjectFullName.lastName}`,
-    'Статус': test.status,
   }))
 
   return (
