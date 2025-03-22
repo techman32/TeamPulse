@@ -3,7 +3,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export const logIn = async (login: string, password: string) => {
   try {
-    const response = await fetch('${baseUrl}/api/auth', {
+    const response = await fetch(`${baseUrl}/api/auth`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ login, password }),
