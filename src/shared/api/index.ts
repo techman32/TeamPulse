@@ -1,8 +1,9 @@
 import { CreatedTemplate, CreatedTest, SolvedTest, Tag, User } from '@/shared/lib/types'
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export const logIn = async (login: string, password: string) => {
   try {
-    const response = await fetch('http://localhost:3000/api/auth', {
+    const response = await fetch('${baseUrl}/api/auth', {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify({ login, password }),
@@ -15,7 +16,7 @@ export const logIn = async (login: string, password: string) => {
 
 export const getUsers = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/users?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/users?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ export const getUsers = async (limit: number, offset: number) => {
 
 export const getGroups = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/groups?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/groups?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const getGroups = async (limit: number, offset: number) => {
 
 export const getTags = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tags?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/tags?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ export const getTags = async (limit: number, offset: number) => {
 
 export const getTemplates = async (limit: number, offset: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/templates?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/templates?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ export const getTemplates = async (limit: number, offset: number) => {
 
 export const setUser = async (data: User) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/users`, {
+    const response = await fetch(`${baseUrl}/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +93,7 @@ export const setUser = async (data: User) => {
 
 export const setTest = async (data: CreatedTest) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests/assign`, {
+    const response = await fetch(`${baseUrl}/api/tests/assign`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +110,7 @@ export const setTest = async (data: CreatedTest) => {
 
 export const getTests = async (limit?: number, offset?: number) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/tests?limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +125,7 @@ export const getTests = async (limit?: number, offset?: number) => {
 
 export const setTag = async (data: Tag) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tags`, {
+    const response = await fetch(`${baseUrl}/api/tags`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ export const setTag = async (data: Tag) => {
 
 export const setGroup = async (data: Tag) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/groups`, {
+    const response = await fetch(`${baseUrl}/api/groups`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -158,7 +159,7 @@ export const setGroup = async (data: Tag) => {
 
 export const setTemplate = async (data: CreatedTemplate) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/templates`, {
+    const response = await fetch(`${baseUrl}/api/templates`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -176,14 +177,14 @@ export const setTemplate = async (data: CreatedTemplate) => {
 export const getUser = async (id?: string) => {
   try {
     if (id) {
-      const response = await fetch(`http://localhost:3000/api/users/${id}`, {
+      const response = await fetch(`${baseUrl}/api/users/${id}`, {
         method: 'GET',
         credentials: 'include',
       })
       return response.json()
     }
 
-    const response = await fetch(`http://localhost:3000/api/users/me`, {
+    const response = await fetch(`${baseUrl}/api/users/me`, {
       method: 'GET',
       credentials: 'include',
     })
@@ -195,7 +196,7 @@ export const getUser = async (id?: string) => {
 
 export const getTest = async (testId: string, topicId: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests/${testId}?topicId=${topicId}`, {
+    const response = await fetch(`${baseUrl}/api/tests/${testId}?topicId=${topicId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -210,7 +211,7 @@ export const getTest = async (testId: string, topicId: string) => {
 
 export const solveTest = async (data: SolvedTest) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests/solve`, {
+    const response = await fetch(`${baseUrl}/api/tests/solve`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -227,7 +228,7 @@ export const solveTest = async (data: SolvedTest) => {
 
 export const getTestUsers = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:3000/api/tests/${id}/users`, {
+    const response = await fetch(`${baseUrl}/api/tests/${id}/users`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
