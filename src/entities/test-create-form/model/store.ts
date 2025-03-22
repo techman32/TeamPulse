@@ -37,6 +37,7 @@ type TestTemplate = {
   setTopic: (testId: string, topic: string) => void
   setStatus: (status: string) => void
   addTest: () => void
+  setTests: (tests: Test[]) => void
   deleteTest: (testId: string) => void
   addQuestion: (testId: string) => void
   deleteQuestion: (testId: string, questionId: string) => void
@@ -52,6 +53,7 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
   status: '',
   setName: (name: string) => set({ name }),
   setDescription: (description: string) => set({ description }),
+  setTests: (tests: Test[]) => set({ tests }),
   setTopic: (testId: string, topic: string) =>
     set((state) => ({
       tests: state.tests.map((test) => (test.id === testId ? { ...test, topic } : test)),
@@ -63,7 +65,7 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
         ...state.tests,
         {
           id: crypto.randomUUID(),
-          topic: 'default',
+          topic: '',
           questions: [],
         },
       ],

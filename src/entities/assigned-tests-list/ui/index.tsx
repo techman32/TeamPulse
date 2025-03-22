@@ -39,7 +39,8 @@ export default function AssignedTestsList() {
               className="cursor-pointer border border-gray-200 p-2 rounded-md hover:shadow-sm flex justify-between"
             >
               <span>
-                {topic.name} – {test.subjectFullName.firstName} {test.subjectFullName.lastName}
+                {topic.name}{' '}
+                {test.subjectFullName ? ` – ${test.subjectFullName.firstName} ${test.subjectFullName.lastName}` : ''}
               </span>
               <span>{getStatusText(topic.completionStatus)}</span>
             </Link>

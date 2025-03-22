@@ -39,7 +39,7 @@ export default function TestsTable() {
     'Анонимный': test.isAnonymous ? 'Да' : 'Нет',
     'Дата начала': new Date(test.startDate).toLocaleString(),
     'Дата окончания': new Date(test.endDate).toLocaleString(),
-    'Субъект': `${test.subjectFullName.firstName} ${test.subjectFullName.lastName}`,
+    'Субъект': test.subjectFullName ? `${test.subjectFullName.firstName} ${test.subjectFullName.lastName}` : '',
   }))
 
   return (

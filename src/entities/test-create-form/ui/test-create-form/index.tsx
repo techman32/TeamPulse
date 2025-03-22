@@ -17,11 +17,19 @@ export default function TestCreateForm() {
     <>
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Название</h2>
-        <Input placeholder="Введите название" onChange={(event) => store.setName(event.target.value)} />
+        <Input
+          placeholder="Введите название"
+          value={store.name}
+          onChange={(event) => store.setName(event.target.value)}
+        />
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Описание</h2>
-        <Textarea placeholder="Введите описание" onChange={(event) => store.setDescription(event.target.value)} />
+        <Textarea
+          placeholder="Введите описание"
+          value={store.description}
+          onChange={(event) => store.setDescription(event.target.value)}
+        />
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="text-xl font-semibold">Тест</h2>

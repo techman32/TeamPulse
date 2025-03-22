@@ -13,7 +13,7 @@ export type User = {
   email: string
   role: string
   groups: Group[] | string[]
-  createdAt: string
+  createdAt?: string
 }
 
 export type Tag = {
@@ -120,5 +120,24 @@ export type SolvedTest = {
   questions: {
     questionId: string
     answer: string[]
+  }[]
+}
+
+export type TestResult = {
+  name: string
+  description: string
+  topics: {
+    name: string
+    questions: {
+      name: string
+      tags: string[]
+      answer: {
+        name: string
+        points: {
+          name: string
+          points: number
+        }[]
+      }[]
+    }[]
   }[]
 }

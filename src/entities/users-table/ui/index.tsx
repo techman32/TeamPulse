@@ -38,7 +38,7 @@ export default function UsersTable() {
     'Имя пользователя': user.login,
     'Email': user.email,
     'Роль': user.role === 'employee' ? 'Сотрудник' : 'Администратор',
-    'Дата создания': new Date(user.createdAt).toLocaleString(),
+    'Дата создания': user.createdAt ? new Date(user.createdAt).toLocaleString() : '',
     'id': user.id || '',
   }))
 

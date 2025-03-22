@@ -25,6 +25,7 @@ export default function Answers({ testId, questionId }: AnswersProps) {
                 <h2 className="font-semibold">Ответ {++index}</h2>
                 <Input
                   placeholder="Введите ответ"
+                  value={answer.text}
                   onChange={(event) => {
                     store.updateQuestion(testId, question.id, {
                       answers: question.answers.map((a) =>
@@ -40,6 +41,7 @@ export default function Answers({ testId, questionId }: AnswersProps) {
                       <Input
                         placeholder="Баллы"
                         type="number"
+                        value={answer.points.find((p) => p.name === tag)?.points || ''}
                         onChange={(e) => {
                           const points = Number(e.target.value)
                           store.updateQuestion(testId, question.id, {

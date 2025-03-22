@@ -50,6 +50,7 @@ export default function Questions({ testId }: QuestionsProps) {
               )}
               <Input
                 placeholder="Введите вопрос"
+                value={question.name}
                 onChange={(event) =>
                   store.updateQuestion(test.id, question.id, {
                     name: event.target.value,
