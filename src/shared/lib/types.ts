@@ -113,3 +113,12 @@ export type AssignedTopic = {
   name: string
   questions: AssignedQuestion[]
 }
+
+export type SolvedTest = {
+  testId: string
+  topicId: string
+  questions: {
+    questionId: string
+    answer: string[]
+  }[]
+}

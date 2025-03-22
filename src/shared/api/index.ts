@@ -1,4 +1,4 @@
-import { CreatedTemplate, CreatedTest, Tag, User } from '@/shared/lib/types'
+import { CreatedTemplate, CreatedTest, SolvedTest, Tag, User } from '@/shared/lib/types'
 
 export const logIn = async (login: string, password: string) => {
   try {
@@ -205,5 +205,22 @@ export const getTest = async (testId: string, topicId: string) => {
     return await response.json()
   } catch (error) {
     console.error('Ошибка при получении теста: ', error)
+  }
+}
+
+export const solveTest = async (data: SolvedTest) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tests/solve`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при отправке решения: ', error)
   }
 }
