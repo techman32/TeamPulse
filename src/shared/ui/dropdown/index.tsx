@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import ButtonSelect from '@/shared/button-select'
+import ButtonSelect from '@/shared/ui/button-select'
 import Select from '@/shared/ui/select'
 
 interface DropdownProps<T> {
@@ -12,7 +12,7 @@ interface DropdownProps<T> {
   multiple?: boolean
   onSelectAction: (values: string[]) => void
 }
-
+// @typescript-eslint/no-explicit-any
 export default function Dropdown<T extends Record<string, any>>({
   placeholder,
   options,
@@ -26,9 +26,7 @@ export default function Dropdown<T extends Record<string, any>>({
   const selectRef = useRef<HTMLDivElement>(null)
 
   const getLabel = (option: T) =>
-    Array.isArray(displayKey)
-      ? displayKey.map((key) => option[key]).join(' ')
-      : String(option[displayKey])
+    Array.isArray(displayKey) ? displayKey.map((key) => option[key]).join(' ') : String(option[displayKey])
 
   const getValue = (option: T) => String(option[valueKey])
 
@@ -61,7 +59,10 @@ export default function Dropdown<T extends Record<string, any>>({
         selectedText={
           selected.length > 0
             ? selected
-                .map((value) => getLabel(options.find((o) => getValue(o) === value)!))
+                .map((value) => {
+                  const foundOption = options.find((o) => getValue(o) === value)
+                  return foundOption ? getLabel(foundOption) : placeholder
+                })
                 .join(', ')
             : placeholder
         }
@@ -69,13 +70,7 @@ export default function Dropdown<T extends Record<string, any>>({
         multiple={multiple}
       />
       {isOpen && (
-        <Select
-          options={options}
-          selected={selected}
-          getLabel={getLabel}
-          getValue={getValue}
-          onSelect={handleSelect}
-        />
+        <Select options={options} selected={selected} getLabel={getLabel} getValue={getValue} onSelect={handleSelect} />
       )}
     </div>
   )
