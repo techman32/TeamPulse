@@ -11,13 +11,13 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
   const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'tests'>('profile')
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const { user } = await getUser(id || '')
+      if (user) setUser(user)
+    }
+
     fetchUser()
   }, [])
-
-  const fetchUser = async () => {
-    const { user } = await getUser(id || '')
-    if (user) setUser(user)
-  }
 
   const tabs = [
     { key: 'profile', label: 'Профиль' },

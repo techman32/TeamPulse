@@ -10,7 +10,7 @@ interface ButtonDropdownProps<T> {
   onChange: (selected: T[]) => void
   buttonText?: string
 }
-
+// @typescript-eslint/no-explicit-any
 export default function ButtonDropdown<T extends Record<string, any>>({
   options,
   selected,

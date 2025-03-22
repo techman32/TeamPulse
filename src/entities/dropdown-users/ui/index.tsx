@@ -32,7 +32,7 @@ export default function DropdownUsers({ selected, onSelectAction, multiple = tru
       placeholder="Выберите сотрудников"
       options={users}
       selected={selected}
-      // @ts-ignore
+      // @ts-expect-error
       displayKey={['firstName', 'lastName']}
       valueKey="id"
       multiple={multiple}

@@ -1,7 +1,7 @@
 import Profile from '@/entities/profile/ui'
 import { cookies } from 'next/headers'
 
-export async function getServerCookies() {
+const getServerCookies = async () => {
   const cookieStore = await cookies()
   return cookieStore.get('user_role')?.value
 }

@@ -1,4 +1,7 @@
+'use client'
 import Link from 'next/link'
+import AssignedUsersModal from '@/entities/assigned-users-modal/ui'
+import { useState } from 'react'
 
 interface TableProps {
   columns: string[]
@@ -6,6 +9,7 @@ interface TableProps {
 }
 
 export default function Table({ columns, data }: TableProps) {
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
   return (
     <div className="overflow-x-auto xl:overflow-hidden">
       <table className="w-full border-collapse border border-gray-200">
@@ -36,6 +40,19 @@ export default function Table({ columns, data }: TableProps) {
                   )
                 }
 
+                if (column === 'Назначенные') {
+                  return (
+                    <td key={columnIndex} className="border border-gray-300 p-1 text-sm">
+                      <button
+                        className="cursor-pointer hover:bg-gray-200 px-2 py-1 rounded-md transition-all outline-none"
+                        onClick={() => setSelectedTemplateId(row['id'])}
+                      >
+                        {text}
+                      </button>
+                    </td>
+                  )
+                }
+
                 return (
                   <td
                     key={columnIndex}
@@ -50,6 +67,13 @@ export default function Table({ columns, data }: TableProps) {
           ))}
         </tbody>
       </table>
+      {selectedTemplateId && (
+        <AssignedUsersModal
+          templateId={selectedTemplateId}
+          isOpen={!!selectedTemplateId}
+          onCloseAction={() => setSelectedTemplateId(null)}
+        />
+      )}
     </div>
   )
 }

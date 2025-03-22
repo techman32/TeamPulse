@@ -22,7 +22,6 @@ export default function AssignedTestsList() {
 
   const fetchTests = async () => {
     const { tests } = await getTests(1000, 0)
-    console.log(tests)
     if (tests) setTests(tests)
   }
   return (

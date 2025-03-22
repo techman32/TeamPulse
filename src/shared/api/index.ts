@@ -224,3 +224,18 @@ export const solveTest = async (data: SolvedTest) => {
     console.error('Ошибка при отправке решения: ', error)
   }
 }
+
+export const getTestUsers = async (id: string) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/tests/${id}/users`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении пользователей назначенных на тест: ', error)
+  }
+}

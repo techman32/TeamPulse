@@ -19,7 +19,6 @@ export default function Test({ testId, topicId }: { testId: string; topicId: str
   useEffect(() => {
     const fetchTest = async () => {
       const { topic } = await getTest(testId, topicId)
-      console.log(topic)
       if (topic) setTopic(topic)
     }
     fetchTest()
@@ -35,7 +34,7 @@ export default function Test({ testId, topicId }: { testId: string; topicId: str
       await solveTest(data)
       router.replace('/profile')
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 

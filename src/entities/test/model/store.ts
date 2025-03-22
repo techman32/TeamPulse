@@ -8,7 +8,7 @@ type SolvedStore = {
   setAnswer: (questionId: string, answer: string[]) => void
 }
 
-export const useSolvedStore = create<SolvedStore>((set, get) => ({
+export const useSolvedStore = create<SolvedStore>((set) => ({
   questions: [],
   setAnswer: (questionId: string, answer: string[]) => {
     set((state) => {

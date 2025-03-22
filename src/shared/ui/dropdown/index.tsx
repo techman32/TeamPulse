@@ -12,7 +12,7 @@ interface DropdownProps<T> {
   multiple?: boolean
   onSelectAction: (values: string[]) => void
 }
-
+// @typescript-eslint/no-explicit-any
 export default function Dropdown<T extends Record<string, any>>({
   placeholder,
   options,
