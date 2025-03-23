@@ -27,7 +27,8 @@ type AssignmentTestStore = {
   setLateResult: (lateResult: boolean) => void
   setTestId: (testId: string) => void
   setToAll: (toAll: boolean) => void
-  submit: () => Promise<void>
+  reset: () => void
+  submit: () => Promise<{ success: boolean }>
 }
 
 export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => ({
@@ -55,6 +56,22 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
   setEmployees: (employees: string[]) => set({ employees }),
   setTestId: (testId: string) => set({ testId }),
   setToAll: (toAll: boolean) => set({ toAll }),
+  reset: () => {
+    set({
+      name: '',
+      description: '',
+      frequency: '',
+      startDate: '',
+      endDate: '',
+      groups: [],
+      subjectId: '',
+      testId: '',
+      toAll: false,
+      lateResult: false,
+      isAnonymous: false,
+      employees: [],
+    })
+  },
   submit: async () => {
     const form = get()
     const data: CreatedTest = {
@@ -72,6 +89,6 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
       employeeIds: form.employees,
     }
 
-    await setTest(data)
+    return await setTest(data)
   },
 }))

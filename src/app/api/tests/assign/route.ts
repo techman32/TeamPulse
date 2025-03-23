@@ -22,10 +22,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify(data),
     })
 
-    if (response.status === 200) {
-      const data = await response.json()
-      return NextResponse.json(data)
-    }
+    const result = await response.json()
 
     if (response.status === 401) {
       const response = NextResponse.redirect(new URL('/auth', req.url), { status: 302 })
@@ -34,9 +31,12 @@ export async function POST(req: NextRequest) {
       return response
     }
 
+    if (response.status !== 200) {
+      return NextResponse.json({ success: false, error: result.errors })
+    }
+
     return NextResponse.json({
-      message: 'Ошибка при назначении шаблона',
-      status: response.status,
+      success: result.success,
     })
   } catch (error) {
     return NextResponse.json({

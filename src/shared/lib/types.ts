@@ -127,10 +127,5 @@ export type SolvedTest = {
 export type Solution = {
   name: string
   description: string
-  questions: {
-    topicName: string
-    name: string
-    tags: string[]
-    answers: Answer[]
-  }[]
+  topics: Topic[]
 }

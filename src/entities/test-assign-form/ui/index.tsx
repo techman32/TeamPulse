@@ -9,9 +9,24 @@ import Checkbox from '@/shared/ui/checkbox'
 import DropdownTemplates from '@/entities/dropdown-templates/ui'
 import DropdownFrequency from '@/entities/dropdown-frequency/ui'
 import DatePicker from '@/shared/ui/date-picker'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function TestAssignForm() {
+  const [errors, setErrors] = useState<boolean>(false)
   const store = useAssignmentTestStore()
+  const router = useRouter()
+
+  const handleSubmit = async () => {
+    const response = await store.submit()
+    console.log(response)
+    if (!response.success) {
+      setErrors(true)
+    } else {
+      store.reset()
+      router.push('/dashboard/tests')
+    }
+  }
 
   return (
     <>
@@ -114,8 +129,9 @@ export default function TestAssignForm() {
         )}
       </div>
       <div>
-        <Button text="Назначить" buttonType="primary" onClick={() => store.submit()} />
+        <Button text="Назначить" buttonType="primary" onClick={handleSubmit} />
       </div>
+      {errors && <p className="text-red-500 opacity-70 italic">Произошла ошибка, попробуйте отправить еще раз!</p>}
     </>
   )
 }
