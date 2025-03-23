@@ -43,7 +43,8 @@ type TestTemplate = {
   deleteQuestion: (testId: string, questionId: string) => void
   updateQuestion: (testId: string, questionId: string, data: Partial<Question>) => void
   deleteAnswer: (testId: string, questionId: string, answerId: string) => void
-  submit: () => Promise<void>
+  reset: () => void
+  submit: () => Promise<{success: boolean}>
 }
 
 export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
@@ -59,6 +60,7 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
       tests: state.tests.map((test) => (test.id === testId ? { ...test, topic } : test)),
     })),
   setStatus: (status: string) => set({ status }),
+  reset: () => set({ name: '', description: '', tests: [], status: '' }),
   addTest: () =>
     set((state) => ({
       tests: [
@@ -158,6 +160,6 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
         })),
       })),
     }
-    await setTemplate(data)
+    return await setTemplate(data)
   },
 }))

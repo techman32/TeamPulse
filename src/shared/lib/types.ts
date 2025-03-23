@@ -94,8 +94,8 @@ export type AssignedTest = {
     id: string
     name: string
     completionStatus: string
-  }[],
-  result: boolean,
+  }[]
+  result: boolean
   subjectFullName: {
     firstName: string
     lastName: string
@@ -127,12 +127,10 @@ export type SolvedTest = {
 export type Solution = {
   name: string
   description: string
-  topics: {
+  questions: {
+    topicName: string
     name: string
-    questions: {
-      name: string
-      tags: string[]
-      answers: Answer[]
-    }[]
+    tags: string[]
+    answers: Answer[]
   }[]
 }

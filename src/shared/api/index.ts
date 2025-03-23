@@ -1,4 +1,5 @@
 import { CreatedTemplate, CreatedTest, SolvedTest, Tag, User } from '@/shared/lib/types'
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 export const logIn = async (login: string, password: string) => {
@@ -248,7 +249,7 @@ export const getSolution = async (testId: string, userId: string) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({testId, userId}),
+      body: JSON.stringify({ testId, userId }),
       credentials: 'include',
     })
 

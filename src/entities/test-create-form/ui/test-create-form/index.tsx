@@ -4,13 +4,23 @@ import Textarea from '@/shared/ui/textarea'
 import Button from '@/shared/ui/button'
 import TemplateCreateForm from '@/entities/test-create-form/ui/template-create-form'
 import { useTestTemplateStore } from '@/entities/test-create-form/model/store'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function TestCreateForm() {
+  const [errors, setErrors] = useState<boolean>(false)
   const store = useTestTemplateStore()
+  const router = useRouter()
 
   const handleSubmit = async (status: string) => {
     store.setStatus(status)
-    await store.submit()
+    const response = await store.submit()
+    if (!response.success) {
+      setErrors(true)
+    } else {
+      store.reset()
+      router.push('/dashboard/management')
+    }
   }
 
   return (
@@ -39,6 +49,7 @@ export default function TestCreateForm() {
         <Button text="Создать" buttonType="primary" onClick={() => handleSubmit('done')} />
         <Button text="Добавить в черновик" onClick={() => handleSubmit('draft')} />
       </div>
+      {errors && <p className="text-red-500 opacity-70 italic">Произошла ошибка, попробуйте отправить еще раз!</p>}
     </>
   )
 }

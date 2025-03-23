@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Ошибка при отправка решения',
+      message: 'Ошибка при отправке решения',
       status: response.status,
     })
   } catch (error) {

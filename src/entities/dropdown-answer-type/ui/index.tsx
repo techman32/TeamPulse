@@ -5,7 +5,6 @@ const answerTypes = [
   { name: 'Одиночный выбор' },
   { name: 'Множественный выбор' },
   { name: 'Оценка (1-10)' },
-  { name: 'Распределение баллов' },
 ]
 
 interface DropdownAnswerTypesProps {
