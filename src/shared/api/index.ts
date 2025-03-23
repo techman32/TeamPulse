@@ -240,3 +240,20 @@ export const getTestUsers = async (id: string) => {
     console.error('Ошибка при получении пользователей назначенных на тест: ', error)
   }
 }
+
+export const getSolution = async (testId: string, userId: string) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/tests/solution`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({testId, userId}),
+      credentials: 'include',
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении результатов: ', error)
+  }
+}

@@ -1,17 +1,9 @@
 'use client'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { getTests } from '@/shared/api'
 import { AssignedTest } from '@/shared/lib/types'
-import Link from 'next/link'
-
-const statusMap: Record<string, string> = {
-  not_passed: 'Не решено',
-  passed: 'Решено',
-  expired: 'Просрочен',
-  in_progress: 'В процессе',
-}
-
-const getStatusText = (status: string): string => statusMap[status] || 'Неизвестный статус'
+import { getStatusText } from '@/shared/lib/test-result'
 
 export default function AssignedTestsList() {
   const [tests, setTests] = useState<AssignedTest[]>([])

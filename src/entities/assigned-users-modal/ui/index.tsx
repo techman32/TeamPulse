@@ -2,6 +2,9 @@
 import { useEffect, useState } from 'react'
 import Button from '@/shared/ui/button'
 import { getTestUsers } from '@/shared/api'
+import Link from 'next/link'
+import { getStatusText } from '@/shared/lib/test-result'
+import cn from 'classnames'
 
 export default function AssignedUsersModal({
   templateId,
@@ -16,7 +19,9 @@ export default function AssignedUsersModal({
     {
       fullName: { firstName: string; lastName: string }
       id: string
+      testId: string
       completionStatus: string
+      result: boolean
       login: string
     }[]
   >([])
@@ -60,7 +65,20 @@ export default function AssignedUsersModal({
             <p>
               {user.fullName.firstName} {user.fullName.lastName}
             </p>
-            <p className="italic opacity-40">{user.completionStatus}</p>
+            <p className="italic">
+              {user.result ? (
+                <Link
+                  href={`/dashboard/tests/${user.testId}+${user.id}/solution`}
+                  className="text-blue-400 underline-offset-4 hover:underline"
+                >
+                  Результат
+                </Link>
+              ) : (
+                <span className={cn('opacity-40', { 'text-red-500': user.completionStatus === 'expired' })}>
+                  {getStatusText(user.completionStatus)}
+                </span>
+              )}
+            </p>
           </div>
         ))}
         <div className="mt-6 flex justify-end">
