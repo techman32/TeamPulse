@@ -258,3 +258,21 @@ export const getSolution = async (testId: string, userId: string) => {
     console.error('Ошибка при получении результатов: ', error)
   }
 }
+
+export const parseUsers = async (data: FormData) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/parse-users`, {
+      method: 'POST',
+      body: data,
+    })
+
+    const text = await response.text()
+    try {
+      return JSON.parse(text)
+    } catch {
+      return text
+    }
+  } catch (error) {
+    console.error('Ошибка при импорте пользователей: ', error)
+  }
+}
