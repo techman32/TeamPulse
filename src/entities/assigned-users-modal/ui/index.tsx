@@ -46,7 +46,7 @@ export default function AssignedUsersModal({
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const { users } = await getTestUsers(templateId)
+      const {total, users } = await getTestUsers(templateId)
       if (users) {
         setUsers(users)
       }

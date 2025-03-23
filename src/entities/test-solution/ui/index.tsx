@@ -30,31 +30,39 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
         </p>
       </div>
       {solution.topics.map((topic, index) => (
-        <div key={index}>
-          <h2>{topic.name}</h2>
+        <div key={index} className="flex flex-col gap-2">
+          <h2 className="text-xl font-semibold">{topic.name}</h2>
           {topic.questions.map((question, index) => (
-            <div key={index}>
-              <p>{question.text}</p>
+            <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
+              <div className="flex flex-wrap gap-2">
+                {question.tags.map((tag, index) => (
+                  <p key={index} className="text-xs px-2 py-0.5 bg-gray-300 rounded-full">
+                    {tag}
+                  </p>
+                ))}
+              </div>
+              <p>
+                <span className="font-semibold">Вопрос:</span> {question.text}
+              </p>
               {question.answers.map((answer, index) => (
-                <p key={index}>{answer.text}</p>
+                <div key={index} className="flex flex-col gap-2">
+                  <div>
+                    <span className="font-semibold">Ответ {++index}: </span>
+                    <span>{answer.text}</span>
+                  </div>
+                  {answer.points && (
+                    <div className="border border-gray-200 rounded-md p-4">
+                      {answer.points.map((point, index) => (
+                        <p key={index}>{point.name}: {point.points}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           ))}
         </div>
       ))}
-      {/*{solution.questions.map((question, index) => (*/}
-      {/*  <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">*/}
-      {/*    <h2 className="font-semibold text-xl">{topicName}</h2>*/}
-      {/*    <p>*/}
-      {/*      <span className="font-semibold">Вопрос:</span> {question.name}*/}
-      {/*    </p>*/}
-      {/*    {question.answers.map((answer, index) => (*/}
-      {/*      <p key={index}>*/}
-      {/*        <span className="font-semibold">Ответ {++index}:</span> {answer.text}*/}
-      {/*      </p>*/}
-      {/*    ))}*/}
-      {/*  </div>*/}
-      {/*))}*/}
     </div>
   )
 }

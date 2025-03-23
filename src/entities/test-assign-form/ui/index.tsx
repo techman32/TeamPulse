@@ -19,7 +19,6 @@ export default function TestAssignForm() {
 
   const handleSubmit = async () => {
     const response = await store.submit()
-    console.log(response)
     if (!response.success) {
       setErrors(true)
     } else {
