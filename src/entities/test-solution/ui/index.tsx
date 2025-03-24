@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { getSolution } from '@/shared/api'
 import { Solution } from '@/shared/lib/types'
+import BarChart from '@/entities/bar-chart/ui'
 
 export default function TestSolution({ testId, userId }: { testId: string; userId: string }) {
   const [solution, setSolution] = useState<Solution>()
@@ -53,7 +54,9 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
                   {answer.points && (
                     <div className="border border-gray-200 rounded-md p-4">
                       {answer.points.map((point, index) => (
-                        <p key={index}>{point.name}: {point.points}</p>
+                        <p key={index}>
+                          {point.name}: {point.points}
+                        </p>
                       ))}
                     </div>
                   )}
@@ -63,6 +66,7 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
           ))}
         </div>
       ))}
+      <BarChart solutionData={solution} />
     </div>
   )
 }

@@ -52,11 +52,6 @@ export default function TestAssignForm() {
         <div className="flex flex-col gap-2">
           <h2 className="font-semibold">Настройки</h2>
           <Checkbox
-            option="Анонимный тест"
-            checked={store.isAnonymous}
-            onChange={(checked) => store.setIsAnonymous(checked)}
-          />
-          <Checkbox
             option="Результат после завершения"
             checked={store.lateResult}
             onChange={(checked) => store.setLateResult(checked)}

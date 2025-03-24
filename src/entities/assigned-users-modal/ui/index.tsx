@@ -6,6 +6,15 @@ import Link from 'next/link'
 import { getStatusText } from '@/shared/lib/test-result'
 import cn from 'classnames'
 
+type User = {
+  fullName: { firstName: string; lastName: string }
+  id: string
+  testId: string
+  completionStatus: string
+  result: boolean
+  login: string
+}
+
 export default function AssignedUsersModal({
   templateId,
   isOpen,
@@ -15,16 +24,7 @@ export default function AssignedUsersModal({
   isOpen: boolean
   onCloseAction: () => void
 }) {
-  const [users, setUsers] = useState<
-    {
-      fullName: { firstName: string; lastName: string }
-      id: string
-      testId: string
-      completionStatus: string
-      result: boolean
-      login: string
-    }[]
-  >([])
+  const [users, setUsers] = useState<User[]>([])
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -46,7 +46,7 @@ export default function AssignedUsersModal({
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const {total, users } = await getTestUsers(templateId)
+      const { users } = await getTestUsers(templateId)
       if (users) {
         setUsers(users)
       }
@@ -60,27 +60,33 @@ export default function AssignedUsersModal({
     <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-white/5 z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full transform transition-all scale-100 relative">
         <h2 className="text-lg font-semibold mb-4">Назначенные пользователи</h2>
-        {users.map((user) => (
-          <div key={user.id} className="flex justify-between">
-            <p>
-              {user.fullName.firstName} {user.fullName.lastName}
-            </p>
-            <p className="italic">
-              {user.result ? (
-                <Link
-                  href={`/dashboard/tests/${user.testId}+${user.id}/solution`}
-                  className="text-blue-400 underline-offset-4 hover:underline"
-                >
-                  Результат
-                </Link>
-              ) : (
-                <span className={cn('opacity-40', { 'text-red-500': user.completionStatus === 'expired' })}>
-                  {getStatusText(user.completionStatus)}
-                </span>
-              )}
-            </p>
-          </div>
-        ))}
+        {users.length > 0 ? (
+          <>
+            {users.map((user) => (
+              <div key={user.id} className="flex justify-between">
+                <p>
+                  {user.fullName.firstName} {user.fullName.lastName}
+                </p>
+                <p className="italic">
+                  {user.result ? (
+                    <Link
+                      href={`/dashboard/tests/${user.testId}+${user.id}/solution`}
+                      className="text-blue-400 underline-offset-4 hover:underline"
+                    >
+                      Результат
+                    </Link>
+                  ) : (
+                    <span className={cn('opacity-40', { 'text-red-500': user.completionStatus === 'expired' })}>
+                      {getStatusText(user.completionStatus)}
+                    </span>
+                  )}
+                </p>
+              </div>
+            ))}
+          </>
+        ) : (
+          <p className="italic">Загрузка...</p>
+        )}
         <div className="mt-6 flex justify-end">
           <Button text="Закрыть" onClick={onCloseAction} />
         </div>

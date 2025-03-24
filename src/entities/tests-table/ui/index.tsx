@@ -7,6 +7,7 @@ import { getTests } from '@/shared/api'
 
 export default function TestsTable() {
   const [tests, setTests] = useState<AssignedTest[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
   const [total, setTotal] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const itemsPerPage = 10
@@ -22,6 +23,7 @@ export default function TestsTable() {
       setTests(tests)
       setTotal(total)
     }
+    setLoading(false)
   }
 
   const handlePrevPage = () => {
@@ -33,20 +35,28 @@ export default function TestsTable() {
   }
 
   const columns = ['Название', 'Описание', 'Анонимный', 'Дата начала', 'Дата окончания', 'Субъект', 'Назначенные']
-  const formattedData = tests.map((test) => ({
-    'Название': test.name,
-    'Описание': test.description,
-    'Анонимный': test.isAnonymous ? 'Да' : 'Нет',
-    'Дата начала': new Date(test.startDate).toLocaleString(),
-    'Дата окончания': new Date(test.endDate).toLocaleString(),
-    'Субъект': test.subjectFullName ? `${test.subjectFullName.firstName} ${test.subjectFullName.lastName}` : '',
-    'Назначенные': 'Посмотреть',
-    'id': test.id,
-  }))
 
   return (
     <div className="flex flex-col gap-4">
-      <Table columns={columns} data={formattedData} />
+      <Table
+        columns={columns}
+        data={
+          loading
+            ? Array(3).fill({})
+            : tests.map((test) => ({
+                'Название': test.name,
+                'Описание': test.description,
+                'Анонимный': test.isAnonymous ? 'Да' : 'Нет',
+                'Дата начала': new Date(test.startDate).toLocaleString(),
+                'Дата окончания': new Date(test.endDate).toLocaleString(),
+                'Субъект': test.subjectFullName
+                  ? `${test.subjectFullName.firstName} ${test.subjectFullName.lastName}`
+                  : '',
+                'Назначенные': 'Посмотреть',
+                'id': test.id,
+              }))
+        }
+      />
       <Pagination
         totalPages={total}
         currentPage={currentPage}

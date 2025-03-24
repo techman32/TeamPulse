@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import AssignedUsersModal from '@/entities/assigned-users-modal/ui'
 import { useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 
 interface TableProps {
   columns: string[]
@@ -10,21 +11,33 @@ interface TableProps {
 
 export default function Table({ columns, data }: TableProps) {
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
+
   return (
     <div className="overflow-x-auto xl:overflow-hidden">
       <div className="border border-gray-200 rounded-md overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200">
-              {columns.map((column, index) => (
-                <th key={index} className="font-semibold p-2 text-center">
-                  {column}
-                </th>
-              ))}
-            </tr>
+          <tr className="border-b border-gray-200">
+            {columns.map((column, index) => (
+              <th key={index} className="font-semibold p-2 text-center">
+                {column}
+              </th>
+            ))}
+          </tr>
           </thead>
           <tbody>
-            {data.map((row, rowIndex) => (
+          {data.length === 0 ? (
+            Array(3).fill(0).map((_, rowIndex) => (
+              <tr key={rowIndex} className="odd:bg-white even:bg-gray-50 text-center">
+                {columns.map((_, columnIndex) => (
+                  <td key={columnIndex} className="p-1 text-sm">
+                    <Skeleton width="100%" height={20} />
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            data.map((row, rowIndex) => (
               <tr key={rowIndex} className="odd:bg-white even:bg-gray-50 text-center">
                 {columns.map((column, columnIndex) => {
                   const text = row[column] || '-'
@@ -61,7 +74,8 @@ export default function Table({ columns, data }: TableProps) {
                   )
                 })}
               </tr>
-            ))}
+            ))
+          )}
           </tbody>
         </table>
       </div>
