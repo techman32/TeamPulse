@@ -4,6 +4,12 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get('auth_token')?.value
   const role = req.cookies.get('user_role')?.value
   const pathname = req.nextUrl.pathname
+  const userAgent = req.headers.get('user-agent') || ''
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod|Opera Mini|BlackBerry|IEMobile|WPDesktop/i.test(userAgent)
+
+  if (isMobile) {
+    return NextResponse.redirect(new URL('/mobile', req.url))
+  }
 
   if (!token) {
     return NextResponse.redirect(new URL('/auth', req.url))
