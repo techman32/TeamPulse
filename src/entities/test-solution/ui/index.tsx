@@ -78,7 +78,26 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
           ))}
         </div>
       ))}
-      {hasPoints && <BarChart solutionData={solution} />}
+      {hasPoints && (
+        <BarChart
+          solutionData={{
+            ...solution,
+            topics: solution.topics.map((topic) => ({
+              ...topic,
+              questions: topic.questions.map((question) => ({
+                ...question,
+                answers: question.answers.map((answer) => ({
+                  ...answer,
+                  points: answer.points?.map((point) => ({
+                    ...point,
+                    points: String(point.points),
+                  })),
+                })),
+              })),
+            })),
+          }}
+        />
+      )}
     </div>
   )
 }
