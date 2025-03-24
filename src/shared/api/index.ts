@@ -15,6 +15,21 @@ export const logIn = async (login: string, password: string) => {
   }
 }
 
+export const logOut = async () => {
+  try {
+    const response = await fetch('/api/auth/logout', {
+      method: 'GET',
+      credentials: 'include',
+    })
+
+    if (response.redirected) {
+      window.location.href = response.url
+    }
+  } catch (error) {
+    console.error('Ошибка при выходе из системы:', error)
+  }
+}
+
 export const getUsers = async (limit: number, offset: number) => {
   try {
     const response = await fetch(`${baseUrl}/api/users?limit=${limit}&offset=${offset}`, {

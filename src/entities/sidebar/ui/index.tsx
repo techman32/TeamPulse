@@ -2,7 +2,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Bolt, House, Notebook, PlusCircle, Users } from 'lucide-react'
+import { Bolt, House, LogOutIcon, Notebook, PlusCircle, Users } from 'lucide-react'
+import { logOut } from '@/shared/api'
 
 const menuItems = [
   { href: '/dashboard', icon: <House size={24} />, label: 'Главная' },
@@ -15,6 +16,10 @@ const menuItems = [
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(false)
   const [showLabels, setShowLabels] = useState(false)
+
+  const handleLogout = async () => {
+    await logOut()
+  }
 
   useEffect(() => {
     if (isExpanded) {
@@ -34,11 +39,7 @@ export default function Sidebar() {
     >
       <nav className="flex flex-col p-2">
         {menuItems.map(({ href, icon, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className="flex items-center gap-3 py-4 px-1.5 hover:bg-gray-100 rounded-md"
-          >
+          <Link key={href} href={href} className="flex items-center gap-3 py-4 px-1.5 hover:bg-gray-100 rounded-md">
             {icon}
             {showLabels && (
               <motion.span
@@ -52,6 +53,19 @@ export default function Sidebar() {
             )}
           </Link>
         ))}
+        <button className="flex items-center gap-3 py-4 px-1.5 hover:bg-gray-100 rounded-md cursor-pointer" onClick={handleLogout}>
+          <LogOutIcon size={24} />
+          {showLabels && (
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-sm font-medium"
+            >
+              Выход
+            </motion.span>
+          )}
+        </button>
       </nav>
     </motion.div>
   )
