@@ -1,6 +1,6 @@
+import LogInForm from '@/entities/login-form/ui'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import LogInForm from '@/entities/login-form/ui'
 
 export default async function AuthPage() {
   const cookieStore = await cookies()

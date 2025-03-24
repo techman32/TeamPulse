@@ -15,7 +15,7 @@ export default function Button({ text, buttonType = 'default', loading, block, .
         'bg-black text-white hover:bg-black/85 active:bg-black/80': buttonType === 'primary',
         'bg-red-500 text-white hover:bg-red-500/90 active:bg-red-500/80': buttonType === 'danger',
         'bg-white border border-gray-200 hover:bg-gray-50 active:bg-gray-100': buttonType === 'default',
-        'opacity-60': loading,
+        'opacity-60': loading || props.disabled,
         'w-full': block,
         'min-w-max max-w-12': !block,
       })}

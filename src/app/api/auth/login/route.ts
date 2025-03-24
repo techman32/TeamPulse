@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   const { login, password } = await req.json()
 
   try {
-    const response = await fetch('http://193.164.150.39/api/v1/auth/login', {
+    const response = await fetch('http://193.164.150.39/api/v1/auth/logins', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -13,20 +13,21 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ login, password }),
     })
 
-    if (response.ok) {
-      const data = await response.json()
-      const { token, expirationDate, role } = data
+    const json = await response.json()
 
-      if (!token) {
-        return NextResponse.json({ message: 'Не удалось получить токен', status: response.status })
+    if (response.status === 200) {
+      const { success, error, data } = json
+
+      if (error) {
+        return NextResponse.json({ error, success })
       }
 
-      const res = NextResponse.json({ success: true })
+      const res = NextResponse.json({ success })
       res.cookies.set({
         name: 'auth_token',
-        value: token,
+        value: data.token,
         httpOnly: true,
-        expires: new Date(expirationDate * 1000),
+        expires: new Date(data.expirationDate * 1000),
         // secure: process.env.NODE_ENV === 'production', // Только по HTTPS в проде
         // sameSite: 'strict', // Только с того же сайта
         path: '/',
@@ -34,9 +35,9 @@ export async function POST(req: NextRequest) {
 
       res.cookies.set({
         name: 'user_role',
-        value: role,
+        value: data.role,
         httpOnly: true,
-        expires: new Date(expirationDate * 1000),
+        expires: new Date(data.expirationDate * 1000),
         path: '/',
       })
 
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Произошла ошибка при авторизации',
+      success: false,
       status: response.status,
     })
   } catch (error) {
