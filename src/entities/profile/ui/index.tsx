@@ -6,6 +6,7 @@ import Tabs from '@/entities/tabs/ui'
 import ProfileShort from '@/entities/profile-short/ui'
 import AssignedTestsList from '@/entities/assigned-tests-list/ui'
 import UserTests from '@/entities/user-tests/ui'
+import UserStatistic from '@/entities/user-statistic'
 
 export default function Profile({ id, role }: { id?: string; role?: string }) {
   const [user, setUser] = useState<User | null>(null)
@@ -40,7 +41,7 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
           />
           <div className="mt-4">
             {activeTab === 'profile' && <ProfileShort user={user} />}
-            {activeTab === 'account' && <p>Настройки аккаунта</p>}
+            {activeTab === 'account' && (role === 'employee' ? <p>Настройки аккаунта</p> : <UserStatistic />)}
             {activeTab === 'tests' && (role === 'employee' ? <AssignedTestsList /> : id && <UserTests userId={id} />)}
           </div>
         </div>

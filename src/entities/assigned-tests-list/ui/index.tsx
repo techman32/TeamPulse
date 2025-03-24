@@ -18,26 +18,30 @@ export default function AssignedTestsList() {
   }
   return (
     <div className="border border-gray-200 rounded-md p-4 flex flex-col gap-4">
-      {tests.map((test, index) => (
-        <div key={index} className="border border-gray-200 rounded-md p-4 flex flex-col gap-2">
-          <h2 className="font-semibold text-xl">{test.name}</h2>
-          <p className="opacity-80">{test.description}</p>
-          <p className="italic opacity-50 text-sm">Дедлайн: {new Date(test.endDate).toLocaleString()}</p>
-          {test.topics.map((topic, index) => (
-            <Link
-              href={`/profile/test/${test.id}+${topic.id}`}
-              key={index}
-              className="cursor-pointer border border-gray-200 p-2 rounded-md hover:shadow-sm flex justify-between"
-            >
-              <span>
-                {topic.name}{' '}
-                {test.subjectFullName ? ` – ${test.subjectFullName.firstName} ${test.subjectFullName.lastName}` : ''}
-              </span>
-              <span>{getStatusText(topic.completionStatus)}</span>
-            </Link>
-          ))}
-        </div>
-      ))}
+      {tests.length > 0 ? (
+        tests.map((test, index) => (
+          <div key={index} className="border border-gray-200 rounded-md p-4 flex flex-col gap-2">
+            <h2 className="font-semibold text-xl">{test.name}</h2>
+            <p className="opacity-80">{test.description}</p>
+            <p className="italic opacity-50 text-sm">Дедлайн: {new Date(test.endDate).toLocaleString()}</p>
+            {test.topics.map((topic, index) => (
+              <Link
+                href={`/profile/test/${test.id}+${topic.id}`}
+                key={index}
+                className="cursor-pointer border border-gray-200 p-2 rounded-md hover:shadow-sm flex justify-between"
+              >
+                <span>
+                  {topic.name}{' '}
+                  {test.subjectFullName ? ` – ${test.subjectFullName.firstName} ${test.subjectFullName.lastName}` : ''}
+                </span>
+                <span>{getStatusText(topic.completionStatus)}</span>
+              </Link>
+            ))}
+          </div>
+        ))
+      ) : (
+        <p className="italic">Загрузка...</p>
+      )}
     </div>
   )
 }

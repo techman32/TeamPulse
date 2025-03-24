@@ -6,6 +6,7 @@ import BarChart from '@/entities/bar-chart/ui'
 
 export default function TestSolution({ testId, userId }: { testId: string; userId: string }) {
   const [solution, setSolution] = useState<Solution>()
+  const [hasPoints, setHasPoints] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchSolution = async () => {
@@ -16,6 +17,17 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
     }
     fetchSolution()
   }, [testId, userId])
+
+  useEffect(() => {
+    if (solution) {
+      const pointsExist = solution.topics.some((topic) =>
+        topic.questions.some((question) =>
+          question.answers.some((answer) => answer.points && answer.points.length > 0),
+        ),
+      )
+      setHasPoints(pointsExist)
+    }
+  }, [solution])
 
   if (!solution) return null
 
@@ -66,7 +78,7 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
           ))}
         </div>
       ))}
-      <BarChart solutionData={solution} />
+      {hasPoints && <BarChart solutionData={solution} />}
     </div>
   )
 }
