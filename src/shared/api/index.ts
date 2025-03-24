@@ -124,6 +124,21 @@ export const getTests = async (limit?: number, offset?: number) => {
   }
 }
 
+export const getUserTests = async (userId: string, limit?: number, offset?: number) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/users/${userId}/tests?limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    })
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении списка тестов: ', error)
+  }
+}
+
 export const setTag = async (data: Tag) => {
   try {
     const response = await fetch(`${baseUrl}/api/tags`, {
