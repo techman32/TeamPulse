@@ -4,7 +4,7 @@ export async function POST(req: NextRequest) {
   const { login, password } = await req.json()
 
   try {
-    const response = await fetch('http://193.164.150.39/api/v1/auth/logins', {
+    const response = await fetch('http://193.164.150.39/api/v1/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
