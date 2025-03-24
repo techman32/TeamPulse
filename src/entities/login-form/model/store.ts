@@ -7,7 +7,7 @@ type LoginFormState = {
   setPassword: (password: string) => void
 }
 
-export const useLoginFormState = create<LoginFormState>((set, get) => ({
+export const useLoginFormState = create<LoginFormState>((set) => ({
   login: '',
   password: '',
   setLogin: (login: string) => set({ login }),
