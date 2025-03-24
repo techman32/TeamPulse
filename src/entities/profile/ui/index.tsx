@@ -18,7 +18,7 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
     }
 
     fetchUser()
-  }, [])
+  }, [id])
 
   const tabs = [
     { key: 'profile', label: 'Профиль' },
@@ -28,7 +28,7 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
 
   return (
     <>
-      {user && (
+      {user ? (
         <div className="flex flex-col gap-4">
           <h1 className="font-bold text-2xl">
             {user.fullName.lastName} {user.fullName.firstName}
@@ -44,6 +44,8 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
             {activeTab === 'tests' && (role === 'employee' ? <AssignedTestsList /> : id && <UserTests userId={id} />)}
           </div>
         </div>
+      ) : (
+        <p className="italic">Загрузка...</p>
       )}
     </>
   )

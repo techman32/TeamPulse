@@ -2,7 +2,7 @@
 import Table from '@/shared/ui/table'
 import Pagination from '@/entities/pagination/ui'
 import { useEffect, useState } from 'react'
-import { getTests, getUserTests } from '@/shared/api'
+import { getUserTests } from '@/shared/api'
 
 type AssignedTest = {
   id: string
@@ -14,7 +14,7 @@ type AssignedTest = {
   result: boolean
 }
 
-export default function UserTests({userId}: {userId: string}) {
+export default function UserTests({ userId }: { userId: string }) {
   const [tests, setTests] = useState<AssignedTest[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [total, setTotal] = useState<number>(0)
@@ -22,18 +22,17 @@ export default function UserTests({userId}: {userId: string}) {
   const itemsPerPage = 10
 
   useEffect(() => {
-    fetchTests(currentPage)
-  }, [currentPage])
-
-  const fetchTests = async (page: number) => {
-    const offset = (page - 1) * itemsPerPage
-    const { total, tests } = await getUserTests(userId, itemsPerPage, offset)
-    if (tests) {
-      setTests(tests)
-      setTotal(total)
+    const fetchTests = async (page: number) => {
+      const offset = (page - 1) * itemsPerPage
+      const { total, tests } = await getUserTests(userId, itemsPerPage, offset)
+      if (tests) {
+        setTests(tests)
+        setTotal(total)
+      }
+      setLoading(false)
     }
-    setLoading(false)
-  }
+    fetchTests(currentPage)
+  }, [currentPage, userId])
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1)
@@ -53,14 +52,14 @@ export default function UserTests({userId}: {userId: string}) {
           loading
             ? Array(3).fill({})
             : tests.map((test) => ({
-              'Название': test.name,
-              'Описание': test.description,
-              'Дата начала': new Date(test.startDate).toLocaleString(),
-              'Дата окончания': new Date(test.endDate).toLocaleString(),
-              'Результат': test.result ? 'Посмотреть' : 'Недоступен',
-              'id': test.id,
-              'userId': userId,
-            }))
+                'Название': test.name,
+                'Описание': test.description,
+                'Дата начала': new Date(test.startDate).toLocaleString(),
+                'Дата окончания': new Date(test.endDate).toLocaleString(),
+                'Результат': test.result ? 'Посмотреть' : 'Недоступен',
+                'id': test.id,
+                'userId': userId,
+              }))
         }
       />
       <Pagination
