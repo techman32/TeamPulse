@@ -29,10 +29,10 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
     }
   }, [solution])
 
-  if (!solution) return null
+  if (!solution) return <p className="italic">Произошла ошибка при получении результата</p>
 
   return (
-    <div className="mx-[5%] my-4 border border-gray-200 p-4 rounded-md flex flex-col gap-4">
+    <>
       <h1 className="font-bold text-2xl">Результат теста</h1>
       <div className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
         <h2 className="font-semibold">
@@ -47,23 +47,28 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
           <h2 className="text-xl font-semibold">{topic.name}</h2>
           {topic.questions.map((question, index) => (
             <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
-              <div className="flex flex-wrap gap-2">
-                {question.tags.map((tag, index) => (
-                  <p key={index} className="text-xs px-2 py-0.5 bg-gray-300 rounded-full">
-                    {tag}
-                  </p>
-                ))}
-              </div>
+              {question.tags.map((tag) => (
+                <div key={tag} className="flex flex-wrap gap-2">
+                  {question.tags.map((tag, index) => (
+                    <p key={index} className="text-xs px-2 py-0.5 bg-gray-300 rounded-full">
+                      {tag}
+                    </p>
+                  ))}
+                </div>
+              ))}
               <p>
                 <span className="font-semibold">Вопрос:</span> {question.text}
               </p>
               {question.answers.map((answer, index) => (
                 <div key={index} className="flex flex-col gap-2">
-                  <div>
-                    <span className="font-semibold">Ответ {++index}: </span>
-                    <span>{answer.text}</span>
+                  <div className="flex justify-between">
+                    <div>
+                      <span className="font-semibold">Ответ {++index}: </span>
+                      <span>{answer.text}</span>
+                    </div>
+                    <span className="italic opacity-50">{answer.isRight ? 'Верный' : 'Неверный'}</span>
                   </div>
-                  {answer.points && (
+                  {answer.points && answer.points.length > 0 && (
                     <div className="border border-gray-200 rounded-md p-4">
                       {answer.points.map((point, index) => (
                         <p key={index}>
@@ -98,6 +103,6 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
           }}
         />
       )}
-    </div>
+    </>
   )
 }

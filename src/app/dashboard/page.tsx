@@ -1,6 +1,6 @@
 export default function DashboardPage() {
   return (
-    <div className="mx-[5%] my-4 border border-gray-200 p-8 rounded-md flex flex-col gap-4">
+    <>
       <h1 className="font-bold text-4xl">Добро пожаловать!</h1>
       <div>
         <p className="font-semibold text-xl">Здесь вы можете:</p>
@@ -15,6 +15,6 @@ export default function DashboardPage() {
           <li>5. В тесте указывать оценки для каждого вопроса, чтобы в дальнейшем было удобнее анализировать ответы</li>
         </ul>
       </div>
-    </div>
+    </>
   )
 }
