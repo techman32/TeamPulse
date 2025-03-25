@@ -17,7 +17,7 @@ export default function MobilePage() {
     checkScreenSize()
     window.addEventListener('resize', checkScreenSize)
     return () => window.removeEventListener('resize', checkScreenSize)
-  }, [])
+  }, [router])
 
   if (!isMobile) return null
 
