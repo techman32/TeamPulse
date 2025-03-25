@@ -62,9 +62,9 @@ export default function TestCreateForm() {
         <Button text="Добавить в черновик" type="button" loading={loading} onClick={(e) => createTest(e, 'draft')} />
         {success && <p className="text-sm accent-green-500">Тест успешно создан!</p>}
       </div>
-      <div>
-        {errors.length > 0 &&
-          errors.map((error, index) => (
+      {errors.length > 0 && (
+        <div>
+          {errors.map((error, index) => (
             <p key={index} className="text-xs text-red-500">
               {error === 'topics' && 'Не заполнено поле "Тема"'}
               {error === 'name' && 'Не заполнено поле "Название"'}
@@ -73,7 +73,8 @@ export default function TestCreateForm() {
               {error === 'text' && 'Не заполнены поля "Вопросы"'}
             </p>
           ))}
-      </div>
+        </div>
+      )}
     </form>
   )
 }
