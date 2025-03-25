@@ -17,6 +17,7 @@ export default function ButtonSelect({
 }: ButtonSelectProps) {
   return (
     <button
+      type="button"
       className="border text-left border-gray-200 rounded-md w-full p-2 text-base outline-none transition-colors hover:border-gray-400 focus-visible:border-black"
       onClick={onClick}
     >

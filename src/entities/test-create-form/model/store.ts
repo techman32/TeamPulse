@@ -1,19 +1,20 @@
 import { create } from 'zustand'
-import { setTemplate } from '@/shared/api'
 import { CreatedTemplate } from '@/shared/lib/types'
+import { setTemplate } from '@/shared/api'
 
-type Point = {
+export type Point = {
   name: string
   points: number
 }
 
-type Answer = {
+export type Answer = {
   id: string
   text: string
+  isRight: boolean
   points: Point[]
 }
 
-type Question = {
+export type Question = {
   id: string
   name: string
   type: number
@@ -21,69 +22,72 @@ type Question = {
   answers: Answer[]
 }
 
-type Test = {
+export type Topic = {
   id: string
-  topic: string
+  name: string
   questions: Question[]
 }
 
-type TestTemplate = {
+type TemplateStore = {
   name: string
   description: string
-  tests: Test[]
+  topics: Topic[]
   status: string
+
   setName: (name: string) => void
   setDescription: (description: string) => void
-  setTopic: (testId: string, topic: string) => void
   setStatus: (status: string) => void
-  addTest: () => void
-  setTests: (tests: Test[]) => void
-  deleteTest: (testId: string) => void
-  addQuestion: (testId: string) => void
-  deleteQuestion: (testId: string, questionId: string) => void
-  updateQuestion: (testId: string, questionId: string, data: Partial<Question>) => void
-  deleteAnswer: (testId: string, questionId: string, answerId: string) => void
+
+  addTopic: () => void
+  deleteTopic: (topicId: string) => void
+  setTopicName: (topicId: string, name: string) => void
+
+  addQuestion: (topicId: string) => void
+  deleteQuestion: (topicId: string, questionId: string) => void
+  updateQuestion: (topicId: string, questionsId: string, data: Partial<Question>) => void
+
+  deleteAnswer: (topicId: string, questionId: string, answerId: string) => void
   reset: () => void
-  submit: () => Promise<{success: boolean}>
+
+  createTemplate: () => Promise<{ success: boolean; errors: string[] }>
 }
 
-export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
+export const useTemplateStore = create<TemplateStore>((set, get) => ({
   name: '',
   description: '',
-  tests: [],
   status: '',
+  topics: [],
   setName: (name: string) => set({ name }),
   setDescription: (description: string) => set({ description }),
-  setTests: (tests: Test[]) => set({ tests }),
-  setTopic: (testId: string, topic: string) =>
-    set((state) => ({
-      tests: state.tests.map((test) => (test.id === testId ? { ...test, topic } : test)),
-    })),
   setStatus: (status: string) => set({ status }),
-  reset: () => set({ name: '', description: '', tests: [], status: '' }),
-  addTest: () =>
+  addTopic: () => {
     set((state) => ({
-      tests: [
-        ...state.tests,
+      topics: [
+        ...state.topics,
         {
           id: crypto.randomUUID(),
-          topic: '',
+          name: '',
           questions: [],
         },
       ],
-    })),
-  deleteTest: (testId: string) =>
+    }))
+  },
+  deleteTopic: (topicId: string) =>
     set((state) => ({
-      tests: state.tests.filter((test) => test.id !== testId),
+      topics: state.topics.filter((topic) => topic.id !== topicId),
     })),
-  addQuestion: (testId: string) =>
+  setTopicName: (topicId: string, name: string) =>
     set((state) => ({
-      tests: state.tests.map((test) =>
-        test.id === testId
+      topics: state.topics.map((topic) => (topic.id === topicId ? { ...topic, name } : topic)),
+    })),
+  addQuestion: (topicId: string) =>
+    set((state) => ({
+      topics: state.topics.map((topic) =>
+        topic.id === topicId
           ? {
-              ...test,
+              ...topic,
               questions: [
-                ...test.questions,
+                ...topic.questions,
                 {
                   id: crypto.randomUUID(),
                   name: '',
@@ -93,16 +97,40 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
                 },
               ],
             }
-          : test,
+          : topic,
       ),
     })),
-  deleteAnswer: (testId: string, questionId: string, answerId: string) =>
+  deleteQuestion: (topicId: string, questionId: string) =>
     set((state) => ({
-      tests: state.tests.map((test) =>
-        test.id === testId
+      topics: state.topics.map((topic) =>
+        topic.id === topicId
           ? {
-              ...test,
-              questions: test.questions.map((question) =>
+              ...topic,
+              questions: topic.questions.filter((question) => question.id === questionId),
+            }
+          : topic,
+      ),
+    })),
+  updateQuestion: (topicId: string, questionId: string, data: Partial<Question>) =>
+    set((state) => ({
+      topics: state.topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              questions: topic.questions.map((question) =>
+                question.id === questionId ? { ...question, ...data } : question,
+              ),
+            }
+          : topic,
+      ),
+    })),
+  deleteAnswer: (topicId: string, questionId: string, answerId: string) =>
+    set((state) => ({
+      topics: state.topics.map((topic) =>
+        topic.id === topicId
+          ? {
+              ...topic,
+              questions: topic.questions.map((question) =>
                 question.id === questionId
                   ? {
                       ...question,
@@ -111,47 +139,25 @@ export const useTestTemplateStore = create<TestTemplate>((set, get) => ({
                   : question,
               ),
             }
-          : test,
+          : topic,
       ),
     })),
-  updateQuestion: (testId: string, questionId: string, data: Partial<Question>) =>
-    set((state) => ({
-      tests: state.tests.map((test) =>
-        test.id === testId
-          ? {
-              ...test,
-              questions: test.questions.map((question) =>
-                question.id === questionId ? { ...question, ...data } : question,
-              ),
-            }
-          : test,
-      ),
-    })),
-  deleteQuestion: (testId: string, questionId: string) =>
-    set((state) => ({
-      tests: state.tests.map((test) =>
-        test.id === testId
-          ? {
-              ...test,
-              questions: test.questions.filter((question) => question.id !== questionId),
-            }
-          : test,
-      ),
-    })),
-  submit: async () => {
-    const { name, description, status, tests } = get()
+  reset: () => set({ name: '', description: '', topics: [], status: '' }),
+  createTemplate: async () => {
+    const { name, description, status, topics } = get()
     const data: CreatedTemplate = {
       name: name,
       description: description,
       status: status,
-      topics: tests.map((topic) => ({
-        name: topic.topic,
+      topics: topics.map((topic) => ({
+        name: topic.name,
         questions: topic.questions.map((question) => ({
           text: question.name,
           answerType: question.type,
           tags: question.tags,
           answers: question.answers.map((answer) => ({
             text: answer.text,
+            isRight: answer.isRight,
             points: answer.points.map((point) => ({
               name: point.name,
               points: point.points,

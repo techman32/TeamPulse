@@ -10,6 +10,7 @@ interface ButtonDropdownProps<T> {
   onChange: (selected: T[]) => void
   buttonText?: string
 }
+
 // @typescript-eslint/no-explicit-any
 export default function ButtonDropdown<T extends Record<string, any>>({
   options,
@@ -44,7 +45,7 @@ export default function ButtonDropdown<T extends Record<string, any>>({
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
-      <Button text={buttonText} onClick={() => setIsOpen(!isOpen)} />
+      <Button type="button" text={buttonText} onClick={() => setIsOpen(!isOpen)} />
       {isOpen && (
         <Select
           options={options}

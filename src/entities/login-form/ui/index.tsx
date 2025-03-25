@@ -46,6 +46,7 @@ export default function LogInForm() {
         />
         <Button
           block
+          type="submit"
           text="Войти"
           buttonType="primary"
           onClick={handleSubmit}

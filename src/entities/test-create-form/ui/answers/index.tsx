@@ -1,38 +1,63 @@
-import Input from '@/shared/ui/input'
+import { Question, useTemplateStore } from '@/entities/test-create-form/model/store'
 import Button from '@/shared/ui/button'
-import { useTestTemplateStore } from '@/entities/test-create-form/model/store'
+import { ArrowDownLeft, ArrowDownRight } from 'lucide-react'
+import { useState } from 'react'
+import Textarea from '@/shared/ui/textarea'
+import Checkbox from '@/shared/ui/checkbox'
+import Input from '@/shared/ui/input'
 
-interface AnswersProps {
-  testId: string
-  questionId: string
-}
+export default function Answers({ topicId, question }: { topicId: string; question: Question }) {
+  const { updateQuestion, deleteAnswer } = useTemplateStore()
+  const [activeAnswer, setActiveAnswer] = useState<string | null>(null)
 
-export default function Answers({ testId, questionId }: AnswersProps) {
-  const store = useTestTemplateStore()
-  const test = store.tests.find((test) => test.id === testId)
-  const question = test?.questions?.find((question) => question.id === questionId)
+  const toggleAnswer = (id: string) => {
+    setActiveAnswer((prev) => (prev === id ? null : id))
+  }
 
-  if (!question) return null
+  const handleCheckboxChange = (answerId: string, checked: boolean) => {
+    const updatedAnswers = question.answers.map((answer) => {
+      if (question.type === 1) {
+        return { ...answer, isRight: answer.id === answerId ? checked : false }
+      } else if (question.type === 2) {
+        return answer.id === answerId ? { ...answer, isRight: checked } : answer
+      }
+      return answer
+    })
+
+    updateQuestion(topicId, question.id, { answers: updatedAnswers })
+  }
 
   return (
-    <div className="flex flex-col gap-2">
-      {question && question.answers.length > 0 && (
-        <div className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
-          <h2 className="font-semibold">Ответы</h2>
-          {question &&
-            question.answers.map((answer, index) => (
-              <div key={answer.id} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
-                <h2 className="font-semibold">Ответ {++index}</h2>
-                <Input
+    <div className="border border-gray-200 rounded-md p-4 flex flex-col gap-2">
+      {question.answers.length > 0 &&
+        question.answers.map((answer) => (
+          <div key={answer.id} className="border border-gray-200 rounded-md p-4 flex flex-col gap-2">
+            <button
+              type="button"
+              className="w-full text-left font-semibold flex justify-between items-center cursor-pointer"
+              onClick={() => toggleAnswer(answer.id)}
+            >
+              {answer.text || `Ответ`}
+              <span className="opacity-50">
+                {activeAnswer === answer.id ? <ArrowDownLeft size={20} /> : <ArrowDownRight size={20} />}
+              </span>
+            </button>
+
+            {activeAnswer === answer.id && (
+              <div className="flex flex-col gap-2">
+                <Textarea
                   placeholder="Введите ответ"
                   value={answer.text}
-                  onChange={(event) => {
-                    store.updateQuestion(testId, question.id, {
-                      answers: question.answers.map((a) =>
-                        a.id === answer.id ? { ...a, text: event.target.value } : a,
-                      ),
+                  onChange={(e) =>
+                    updateQuestion(topicId, question.id, {
+                      answers: question.answers.map((a) => (a.id === answer.id ? { ...a, text: e.target.value } : a)),
                     })
-                  }}
+                  }
+                />
+                <Checkbox
+                  option="Пометить как правильный"
+                  checked={answer.isRight}
+                  onChange={(checked) => handleCheckboxChange(answer.id, checked)}
                 />
                 {question.tags.length > 0 &&
                   question.tags.map((tag, index) => (
@@ -44,7 +69,7 @@ export default function Answers({ testId, questionId }: AnswersProps) {
                         value={answer.points.find((p) => p.name === tag)?.points || ''}
                         onChange={(e) => {
                           const points = Number(e.target.value)
-                          store.updateQuestion(testId, question.id, {
+                          updateQuestion(topicId, question.id, {
                             answers: question.answers.map((a) =>
                               a.id === answer.id
                                 ? {
@@ -60,34 +85,39 @@ export default function Answers({ testId, questionId }: AnswersProps) {
                       />
                     </div>
                   ))}
-                <div className="flex justify-end">
-                  <Button
-                    text="Удалить ответ"
-                    buttonType="danger"
-                    onClick={() => store.deleteAnswer(testId, question.id, answer.id)}
-                  />
-                </div>
               </div>
-            ))}
-        </div>
-      )}
-      <div className="flex gap-2">
+            )}
+          </div>
+        ))}
+      <div className="flex flex-wrap justify-stretch gap-2">
         <Button
           text="Добавить ответ"
-          color="secondary"
+          type="button"
           onClick={() => {
-            store.updateQuestion(testId, questionId, {
+            updateQuestion(topicId, question.id, {
               answers: [
                 ...question.answers,
                 {
                   id: crypto.randomUUID(),
                   text: '',
+                  isRight: false,
                   points: [],
                 },
               ],
             })
           }}
         />
+        {activeAnswer && (
+          <Button
+            text="Удалить выбранный ответ"
+            buttonType="danger"
+            onClick={() => {
+              deleteAnswer(topicId, question.id, activeAnswer)
+              setActiveAnswer(null)
+            }}
+            type="button"
+          />
+        )}
       </div>
     </div>
   )

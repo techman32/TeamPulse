@@ -71,19 +71,12 @@ export async function POST(req: NextRequest) {
     const result = await response.json()
 
     if (response.status === 401) {
-      const response = NextResponse.redirect(new URL('/auth', req.url), { status: 302 })
-      response.cookies.delete('auth_token')
-      response.cookies.delete('user_role')
-      return response
+      return await fetch('/api/auth/logout', {
+        method: 'GET',
+      })
     }
 
-    if (response.status !== 200) {
-      return NextResponse.json({ success: false, error: result.errors })
-    }
-
-    return NextResponse.json({
-      success: result.success,
-    })
+    return NextResponse.json({ success: result.success, errors: result.errors })
   } catch (error) {
     return NextResponse.json({
       error: error,

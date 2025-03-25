@@ -42,6 +42,7 @@ export type Point = {
 
 export type Answer = {
   text: string
+  isRight: boolean
   points: Point[]
 }
 

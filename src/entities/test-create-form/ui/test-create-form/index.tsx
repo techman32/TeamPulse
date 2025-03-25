@@ -2,54 +2,78 @@
 import Input from '@/shared/ui/input'
 import Textarea from '@/shared/ui/textarea'
 import Button from '@/shared/ui/button'
-import TemplateCreateForm from '@/entities/test-create-form/ui/template-create-form'
-import { useTestTemplateStore } from '@/entities/test-create-form/model/store'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Topics from '@/entities/test-create-form/ui/topics'
+import { useTemplateStore } from '@/entities/test-create-form/model/store'
+import { FormEvent, useState } from 'react'
 
 export default function TestCreateForm() {
-  const [errors, setErrors] = useState<boolean>(false)
-  const store = useTestTemplateStore()
-  const router = useRouter()
+  const [errors, setErrors] = useState<string[]>([])
+  const [success, setSuccess] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const { name, description, setName, setDescription, setStatus, createTemplate, reset } = useTemplateStore()
 
-  const handleSubmit = async (status: string) => {
-    store.setStatus(status)
-    const response = await store.submit()
-    if (!response.success) {
-      setErrors(true)
+  const createTest = async (e: FormEvent, status: string) => {
+    e.preventDefault()
+    setLoading(true)
+    setSuccess(false)
+    setErrors([])
+    setStatus(status)
+    const { success, errors } = await createTemplate()
+    if (!success) {
+      setErrors(errors)
     } else {
-      store.reset()
-      router.push('/dashboard/management')
+      setSuccess(success)
+      reset()
     }
+    setLoading(false)
   }
 
   return (
-    <>
+    <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">Название</h2>
+        <h2 className="font-semibold text-xl">Название</h2>
         <Input
           placeholder="Введите название"
-          value={store.name}
-          onChange={(event) => store.setName(event.target.value)}
+          value={name}
+          onClick={() => setSuccess(false)}
+          onChange={(e) => {
+            setName(e.target.value)
+          }}
         />
       </div>
       <div className="flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">Описание</h2>
+        <h2 className="font-semibold text-xl">Описание</h2>
         <Textarea
           placeholder="Введите описание"
-          value={store.description}
-          onChange={(event) => store.setDescription(event.target.value)}
+          value={description}
+          onClick={() => setSuccess(false)}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">Тест</h2>
-        <TemplateCreateForm />
-      </div>
+      <Topics />
       <div className="flex gap-4 items-center">
-        <Button text="Создать" buttonType="primary" onClick={() => handleSubmit('done')} />
-        <Button text="Добавить в черновик" onClick={() => handleSubmit('draft')} />
+        <Button
+          text="Создать"
+          loading={loading}
+          type="submit"
+          buttonType="primary"
+          onClick={(e) => createTest(e, 'done')}
+        />
+        <Button text="Добавить в черновик" type="button" loading={loading} onClick={(e) => createTest(e, 'draft')} />
+        {success && <p className="text-sm accent-green-500">Тест успешно создан!</p>}
       </div>
-      {errors && <p className="text-red-500 opacity-70 italic">Произошла ошибка, попробуйте отправить еще раз!</p>}
-    </>
+      <div>
+        {errors.length > 0 &&
+          errors.map((error, index) => (
+            <p key={index} className="text-xs text-red-500">
+              {error === 'topics' && 'Не заполнено поле "Тема"'}
+              {error === 'name' && 'Не заполнено поле "Название"'}
+              {error === 'questions' && 'Не добавлены поля "Вопросы"'}
+              {error === 'answers' && 'Не заполнены поля "Ответы"'}
+              {error === 'text' && 'Не заполнены поля "Вопросы"'}
+            </p>
+          ))}
+      </div>
+    </form>
   )
 }
