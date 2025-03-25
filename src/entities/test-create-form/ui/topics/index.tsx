@@ -8,10 +8,10 @@ import { useTemplateStore } from '@/entities/test-create-form/model/store'
 
 export default function Topics() {
   const { topics, addTopic, deleteTopic, setTopicName } = useTemplateStore()
-  const [activeTopic, setActiveTopic] = useState<string | null>(null)
+  const [activeTopics, setActiveTopics] = useState<string[]>([])
 
   const toggleTopic = (id: string) => {
-    setActiveTopic((prev) => (prev === id ? null : id))
+    setActiveTopics((prev) => (prev.includes(id) ? prev.filter((topicId) => topicId !== id) : [...prev, id]))
   }
 
   return (
@@ -26,11 +26,11 @@ export default function Topics() {
             >
               {topic.name || 'Тема без названия'}
               <span className="opacity-50">
-                {activeTopic === topic.id ? <ArrowDownLeft size={20} /> : <ArrowDownRight size={20} />}
+                {activeTopics.includes(topic.id) ? <ArrowDownLeft size={20} /> : <ArrowDownRight size={20} />}
               </span>
             </button>
 
-            {activeTopic === topic.id && (
+            {activeTopics.includes(topic.id) && (
               <div className="flex flex-col gap-2">
                 <Input
                   placeholder="Введите название темы"
@@ -44,13 +44,13 @@ export default function Topics() {
         ))}
       <div className="flex gap-2">
         <Button text="Добавить тему" onClick={addTopic} type="button" />
-        {activeTopic && (
+        {activeTopics.length > 0 && (
           <Button
-            text="Удалить выбранную тему"
+            text={activeTopics.length === 1 ? 'Удалить выбранную тему' : 'Удалить выбранные темы'}
             buttonType="danger"
             onClick={() => {
-              deleteTopic(activeTopic)
-              setActiveTopic(null)
+              activeTopics.forEach(deleteTopic)
+              setActiveTopics([])
             }}
             type="button"
           />
