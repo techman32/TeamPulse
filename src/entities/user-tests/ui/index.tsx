@@ -55,7 +55,7 @@ export default function UserTests({ userId }: { userId: string }) {
                 'Название': test.name,
                 'Описание': test.description,
                 'Дата начала': new Date(test.startDate).toLocaleString(),
-                'Дата окончания': new Date(test.endDate).toLocaleString(),
+                'Дата окончания': test.endDate ? new Date(test.endDate).toLocaleString() : '',
                 'Результат': test.result ? 'Посмотреть' : 'Недоступен',
                 'id': test.id,
                 'userId': userId,
