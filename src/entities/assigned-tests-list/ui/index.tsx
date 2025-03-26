@@ -40,7 +40,7 @@ export default function AssignedTestsList() {
           </div>
         ))
       ) : (
-        <p className="italic">Загрузка...</p>
+        <p className="italic">Тестов нет, можно отдыхать</p>
       )}
     </div>
   )

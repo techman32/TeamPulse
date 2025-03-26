@@ -29,7 +29,7 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
     }
   }, [solution])
 
-  if (!solution) return <p className="italic">Произошла ошибка при получении результата</p>
+  if (!solution) return <p className="italic">Загрузка...</p>
 
   return (
     <>
