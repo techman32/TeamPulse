@@ -18,7 +18,7 @@ export default function DropdownUsers({ selected, onSelectAction, multiple = tru
   }, [])
 
   const fetchGroups = async () => {
-    const { users } = await getUsers(10, 0)
+    const { users } = await getUsers(10, 0, '')
     const formattedUsers = users.map((user: User) => ({
       ...user,
       firstName: user.fullName.firstName,
@@ -32,6 +32,7 @@ export default function DropdownUsers({ selected, onSelectAction, multiple = tru
       placeholder="Выберите сотрудников"
       options={users}
       selected={selected}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       displayKey={['firstName', 'lastName']}
       valueKey="id"
