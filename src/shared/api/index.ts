@@ -306,3 +306,16 @@ export const parseUsers = async (data: FormData) => {
     console.error('Ошибка при импорте пользователей: ', error)
   }
 }
+
+export const parseTemplate = async (data: FormData) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/parse-test`, {
+      method: 'POST',
+      body: data,
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при импорте пользователей: ', error)
+  }
+}

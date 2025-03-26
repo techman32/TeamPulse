@@ -41,6 +41,25 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
         <p className="font-semibold">
           <span>Описание теста:</span> <span className="opacity-50">{solution.description}</span>
         </p>
+        {solution.minPercentage && solution.rightPercentage ? (
+          <>
+            <p className="font-semibold">
+              <span>Минимальный процент прохождения:</span>{' '}
+              <span className="opacity-50">{solution.minPercentage}%</span>
+            </p>
+            <p className="font-semibold">
+              <span>Результат прохождения:</span> <span className="opacity-50">{solution.rightPercentage}% / 100%</span>
+            </p>
+            <p className="font-semibold">
+              <span>Статус прохождения:</span>{' '}
+              <span className="opacity-50">
+                {solution.rightPercentage > solution.minPercentage ? 'Пройден' : 'Не пройден'}
+              </span>
+            </p>
+          </>
+        ) : (
+          <p className="opacity-50 italic">Тест без оценивания</p>
+        )}
       </div>
       {solution.topics.map((topic, index) => (
         <div key={index} className="flex flex-col gap-2">
@@ -66,7 +85,11 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
                       <span className="font-semibold">Ответ {++index}: </span>
                       <span>{answer.text}</span>
                     </div>
-                    <span className="italic opacity-50">{answer.isRight ? 'Верный' : 'Неверный'}</span>
+                    {solution.minPercentage && solution.rightPercentage ? (
+                      <span className="italic opacity-50">{answer.isRight ? 'Верный' : 'Неверный'}</span>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   {answer.points && answer.points.length > 0 && (
                     <div className="border border-gray-200 rounded-md p-4">

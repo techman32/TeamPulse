@@ -12,9 +12,5 @@ export default async function UserPage({ params }: UserPageProps) {
     notFound()
   }
 
-  return (
-    <div className="mx-[25%] my-4 border border-gray-200 p-4 rounded-md flex flex-col gap-4">
-      <Profile id={id} />
-    </div>
-  )
+  return <Profile id={id} />
 }

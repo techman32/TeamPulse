@@ -39,6 +39,7 @@ type TemplateStore = {
   setStatus: (status: string) => void
 
   addTopic: () => void
+  setTopics: (topics: Topic[]) => void,
   deleteTopic: (topicId: string) => void
   setTopicName: (topicId: string, name: string) => void
 
@@ -60,6 +61,7 @@ export const useTemplateStore = create<TemplateStore>((set, get) => ({
   setName: (name: string) => set({ name }),
   setDescription: (description: string) => set({ description }),
   setStatus: (status: string) => set({ status }),
+  setTopics: (topics: Topic[]) => set({ topics }),
   addTopic: () => {
     set((state) => ({
       topics: [

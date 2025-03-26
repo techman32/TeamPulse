@@ -6,6 +6,7 @@ import Topics from '@/entities/test-create-form/ui/topics'
 import { useTemplateStore } from '@/entities/test-create-form/model/store'
 import { FormEvent, useState } from 'react'
 import { getErrorMessage } from '@/shared/lib/errors'
+import TemplateImport from '@/entities/template-import/ui'
 
 export default function TestCreateForm() {
   const [errors, setErrors] = useState<string[] | null>(null)
@@ -61,6 +62,7 @@ export default function TestCreateForm() {
           onClick={(e) => createTest(e, 'done')}
         />
         <Button text="Добавить в черновик" type="button" loading={loading} onClick={(e) => createTest(e, 'draft')} />
+        <TemplateImport/>
         {success && <p className="text-sm accent-green-500">Тест успешно создан!</p>}
       </div>
       {errors && (
