@@ -12,6 +12,7 @@ type AssignmentTestStore = {
   groups: string[]
   testId: string
   toAll: boolean
+  minPercentage: number | null
   isAnonymous: boolean
   lateResult: boolean
   employees: string[]
@@ -21,6 +22,7 @@ type AssignmentTestStore = {
   setStartDate: (startDate: string) => void
   setSubjectId: (subjectId: string) => void
   setEndDate: (endDate: string) => void
+  setMinPercentage: (minPercentage: number) => void
   setGroups: (groups: string[]) => void
   setEmployees: (employees: string[]) => void
   setIsAnonymous: (isAnonymous: boolean) => void
@@ -41,6 +43,7 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
   subjectId: '',
   testId: '',
   toAll: false,
+  minPercentage: null,
   lateResult: false,
   isAnonymous: false,
   employees: [],
@@ -49,6 +52,7 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
   setFrequency: (frequency: string) => set({ frequency }),
   setIsAnonymous: (isAnonymous: boolean) => set({ isAnonymous }),
   setLateResult: (lateResult: boolean) => set({ lateResult }),
+  setMinPercentage: (minPercentage: number) => set({ minPercentage }),
   setSubjectId: (subjectId: string) => set({ subjectId }),
   setStartDate: (startDate: string) => set({ startDate }),
   setEndDate: (endDate: string) => set({ endDate }),
@@ -63,6 +67,7 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
       frequency: '',
       startDate: '',
       endDate: '',
+      minPercentage: null,
       groups: [],
       subjectId: '',
       testId: '',
@@ -84,6 +89,7 @@ export const useAssignmentTestStore = create<AssignmentTestStore>((set, get) => 
       frequency: form.frequency,
       startDate: form.startDate,
       endDate: form.endDate,
+      minPercentage: form.minPercentage,
       assignToAll: form.toAll,
       groupIds: form.groups,
       employeeIds: form.employees,

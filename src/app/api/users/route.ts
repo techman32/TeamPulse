@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
-  const offset = searchParams.get('offset')
-  const limit = searchParams.get('limit')
+  const offset = searchParams.get('offset') || ''
+  const limit = searchParams.get('limit') || ''
+  const query = searchParams.get('query') || ''
   const token = req.cookies.get('auth_token')?.value
 
   if (!token) {
@@ -14,7 +15,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response = await fetch(`http://193.164.150.39/api/v1/users?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`http://193.164.150.39/api/v1/users?limit=${limit}&offset=${offset}&q=${query}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

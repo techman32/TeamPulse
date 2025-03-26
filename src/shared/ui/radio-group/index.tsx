@@ -10,8 +10,8 @@ interface RadioGroupProps {
 export default function RadioGroup({ name, labels, selected, onChange }: RadioGroupProps) {
   return (
     <div className={'flex flex-col gap-0.5'}>
-      {labels.map((label) => (
-        <RadioButton key={label} name={name} label={label} selected={selected} onChange={onChange} />
+      {labels.map((label, index) => (
+        <RadioButton key={index} name={name} label={label} selected={selected} onChange={onChange} />
       ))}
     </div>
   )

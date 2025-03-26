@@ -4,21 +4,23 @@ import Pagination from '@/entities/pagination/ui'
 import { AssignedTest } from '@/shared/lib/types'
 import { useEffect, useState } from 'react'
 import { getTests } from '@/shared/api'
+import Search from '@/entities/search/ui'
 
 export default function TestsTable() {
   const [tests, setTests] = useState<AssignedTest[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [total, setTotal] = useState<number>(0)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [searchQuery, setSearchQuery] = useState<string>('')
   const itemsPerPage = 10
 
   useEffect(() => {
-    fetchTests(currentPage)
-  }, [currentPage])
+    fetchTests(currentPage, searchQuery)
+  }, [currentPage, searchQuery])
 
-  const fetchTests = async (page: number) => {
+  const fetchTests = async (page: number, query: string) => {
     const offset = (page - 1) * itemsPerPage
-    const { total, tests } = await getTests(itemsPerPage, offset)
+    const { total, tests } = await getTests(itemsPerPage, offset, query)
     if (tests) {
       setTests(tests)
       setTotal(total)
@@ -38,6 +40,7 @@ export default function TestsTable() {
 
   return (
     <div className="flex flex-col gap-4">
+      <Search onSearch={setSearchQuery} />
       <Table
         columns={columns}
         data={

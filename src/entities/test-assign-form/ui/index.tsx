@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function TestAssignForm() {
+  const [isMinPercent, setIsMinPercent] = useState<boolean>(false)
   const [errors, setErrors] = useState<boolean>(false)
   const store = useAssignmentTestStore()
   const router = useRouter()
@@ -25,6 +26,12 @@ export default function TestAssignForm() {
       store.reset()
       router.push('/dashboard/tests')
     }
+  }
+
+  const getValidMinPercentage = (value: number) => {
+    if (value < 0) return 0
+    if (value > 100) return 100
+    return value
   }
 
   return (
@@ -56,6 +63,32 @@ export default function TestAssignForm() {
             checked={store.lateResult}
             onChange={(checked) => store.setLateResult(checked)}
           />
+          <Checkbox
+            option="Задать минимальный процент прохождения теста"
+            checked={isMinPercent}
+            onChange={(checked) => setIsMinPercent(checked)}
+          />
+          {isMinPercent && (
+            <>
+              <h2 className="font-semibold">Минимальное значение для прохождения теста</h2>
+              <div className="grid grid-cols-[120px_120px] gap-2 items-center">
+                <Input
+                  placeholder="Минимум"
+                  max="100"
+                  min="0"
+                  type="number"
+                  value={store.minPercentage || ''}
+                  onChange={(e) => {
+                    let value = e.target.value.replace(/^0+/, '')
+                    if (value === '') value = '0'
+                    const validValue = getValidMinPercentage(parseInt(value, 10) || 0)
+                    store.setMinPercentage(validValue)
+                  }}
+                />
+                <p>из 100%</p>
+              </div>
+            </>
+          )}
         </div>
         <div className="flex flex-col gap-2">
           <h2 className="font-semibold">Субъект оценивания</h2>

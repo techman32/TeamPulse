@@ -73,6 +73,7 @@ export type CreatedTest = {
   lateResult: boolean
   isAnonymous: boolean
   frequency: string
+  minPercentage: number | null
   startDate: string
   endDate: string
   assignToAll: boolean
@@ -128,5 +129,7 @@ export type SolvedTest = {
 export type Solution = {
   name: string
   description: string
+  minPercentage: number | null
+  rightPercentage: number | null
   topics: Topic[]
 }

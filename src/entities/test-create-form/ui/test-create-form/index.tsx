@@ -5,9 +5,11 @@ import Button from '@/shared/ui/button'
 import Topics from '@/entities/test-create-form/ui/topics'
 import { useTemplateStore } from '@/entities/test-create-form/model/store'
 import { FormEvent, useState } from 'react'
+import { getErrorMessage } from '@/shared/lib/errors'
+import TemplateImport from '@/entities/template-import/ui'
 
 export default function TestCreateForm() {
-  const [errors, setErrors] = useState<string[]>([])
+  const [errors, setErrors] = useState<string[] | null>(null)
   const [success, setSuccess] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const { name, description, setName, setDescription, setStatus, createTemplate, reset } = useTemplateStore()
@@ -16,11 +18,11 @@ export default function TestCreateForm() {
     e.preventDefault()
     setLoading(true)
     setSuccess(false)
-    setErrors([])
+    setErrors(null)
     setStatus(status)
     const { success, errors } = await createTemplate()
     if (!success) {
-      setErrors(errors)
+      setErrors(errors.map((error) => `template/${error}`))
     } else {
       setSuccess(success)
       reset()
@@ -60,20 +62,18 @@ export default function TestCreateForm() {
           onClick={(e) => createTest(e, 'done')}
         />
         <Button text="Добавить в черновик" type="button" loading={loading} onClick={(e) => createTest(e, 'draft')} />
+        <TemplateImport/>
         {success && <p className="text-sm accent-green-500">Тест успешно создан!</p>}
       </div>
-      <div>
-        {errors.length > 0 &&
-          errors.map((error, index) => (
+      {errors && (
+        <div>
+          {errors.map((error, index) => (
             <p key={index} className="text-xs text-red-500">
-              {error === 'topics' && 'Не заполнено поле "Тема"'}
-              {error === 'name' && 'Не заполнено поле "Название"'}
-              {error === 'questions' && 'Не добавлены поля "Вопросы"'}
-              {error === 'answers' && 'Не заполнены поля "Ответы"'}
-              {error === 'text' && 'Не заполнены поля "Вопросы"'}
+              {getErrorMessage(error)}
             </p>
           ))}
-      </div>
+        </div>
+      )}
     </form>
   )
 }
