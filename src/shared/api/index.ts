@@ -316,6 +316,19 @@ export const parseTemplate = async (data: FormData) => {
 
     return await response.json()
   } catch (error) {
-    console.error('Ошибка при импорте пользователей: ', error)
+    console.error('Ошибка при импорте шаблона: ', error)
+  }
+}
+
+export const getSubjectStats = async (subjectId: string) => {
+  try {
+    const response = await fetch(`${baseUrl}/api/users/subject-stats`, {
+      method: 'POST',
+      body: JSON.stringify({subjectId}),
+    })
+
+    return await response.json()
+  } catch (error) {
+    console.error('Ошибка при получении статистики пользователя: ', error)
   }
 }

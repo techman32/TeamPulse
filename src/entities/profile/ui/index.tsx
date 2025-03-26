@@ -7,10 +7,11 @@ import ProfileShort from '@/entities/profile-short/ui'
 import AssignedTestsList from '@/entities/assigned-tests-list/ui'
 import UserTests from '@/entities/user-tests/ui'
 import UserStatistic from '@/entities/user-statistic'
+import SubjectStats from '@/entities/subject-stats/ui'
 
 export default function Profile({ id, role }: { id?: string; role?: string }) {
   const [user, setUser] = useState<User | null>(null)
-  const [activeTab, setActiveTab] = useState<'profile' | 'account' | 'tests'>('profile')
+  const [activeTab, setActiveTab] = useState<'profile' | 'stats' | 'tests'>('profile')
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,7 +24,7 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
 
   const tabs = [
     { key: 'profile', label: 'Профиль' },
-    { key: 'account', label: 'Аккаунт' },
+    { key: 'stats', label: 'Статистика' },
     { key: 'tests', label: 'Назначенные тесты' },
   ]
 
@@ -37,11 +38,11 @@ export default function Profile({ id, role }: { id?: string; role?: string }) {
           <Tabs
             tabs={tabs}
             activeTab={activeTab}
-            onTabChange={(e) => setActiveTab(e as 'profile' | 'account' | 'tests')}
+            onTabChange={(e) => setActiveTab(e as 'profile' | 'stats' | 'tests')}
           />
           <div className="mt-4">
             {activeTab === 'profile' && <ProfileShort user={user} />}
-            {activeTab === 'account' && (role === 'employee' ? <p>Настройки аккаунта</p> : <UserStatistic />)}
+            {activeTab === 'stats' && id && <SubjectStats id={id} />}
             {activeTab === 'tests' && (role === 'employee' ? <AssignedTestsList /> : id && <UserTests userId={id} />)}
           </div>
         </div>
