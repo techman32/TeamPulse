@@ -68,11 +68,7 @@ export default function TestSolution({ testId, userId }: { testId: string; userI
             <div key={index} className="flex flex-col gap-2 border border-gray-200 rounded-md p-4">
               {question.tags.map((tag) => (
                 <div key={tag} className="flex flex-wrap gap-2">
-                  {question.tags.map((tag, index) => (
-                    <p key={index} className="text-xs px-2 py-0.5 bg-gray-300 rounded-full">
-                      {tag}
-                    </p>
-                  ))}
+                  <span className="text-xs px-2 py-0.5 bg-gray-300 rounded-full">{tag}</span>
                 </div>
               ))}
               <p>
