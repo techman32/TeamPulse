@@ -73,6 +73,7 @@ export type CreatedTest = {
   lateResult: boolean
   isAnonymous: boolean
   frequency: string
+  minPercentage: number | null
   startDate: string
   endDate: string
   assignToAll: boolean
