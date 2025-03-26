@@ -30,9 +30,9 @@ export const logOut = async () => {
   }
 }
 
-export const getUsers = async (limit: number, offset: number) => {
+export const getUsers = async (limit: number, offset: number, query: string) => {
   try {
-    const response = await fetch(`${baseUrl}/api/users?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/users?limit=${limit}&offset=${offset}&query=${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -75,9 +75,9 @@ export const getTags = async (limit: number, offset: number) => {
   }
 }
 
-export const getTemplates = async (limit: number, offset: number) => {
+export const getTemplates = async (limit: number, offset: number, query: string) => {
   try {
-    const response = await fetch(`${baseUrl}/api/templates?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/templates?limit=${limit}&offset=${offset}&query=${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -124,9 +124,9 @@ export const setTest = async (data: CreatedTest) => {
   }
 }
 
-export const getTests = async (limit?: number, offset?: number) => {
+export const getTests = async (limit?: number, offset?: number, query?: string) => {
   try {
-    const response = await fetch(`${baseUrl}/api/tests?limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${baseUrl}/api/tests?limit=${limit}&offset=${offset}&query=${query}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
