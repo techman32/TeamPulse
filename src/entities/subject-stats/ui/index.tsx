@@ -24,7 +24,6 @@ export default function SubjectStats({ id }: { id: string }) {
 
   return (
     <div>
-      <h2>Статистика по предмету</h2>
       <GraphStats data={data} />
     </div>
   )

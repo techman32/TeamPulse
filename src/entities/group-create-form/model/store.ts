@@ -7,12 +7,14 @@ type GroupStore = {
   employees: string[]
   setName: (name: string) => void
   setEmployees: (employees: string[]) => void
-  submit: () => Promise<void>
+  reset: () => void,
+  submit: () => Promise<{ success: boolean }>
 }
 export const useGroupStore = create<GroupStore>((set, get) => ({
   name: '',
   employees: [],
   setName: (name: string) => set({ name }),
+  reset: () => set({ name: '', employees: [] }),
   setEmployees: (employees: string[]) => set({ employees }),
   submit: async () => {
     const { name, employees } = get()
@@ -20,6 +22,6 @@ export const useGroupStore = create<GroupStore>((set, get) => ({
       name: name,
       employeeIds: employees,
     }
-    await setGroup(data)
+    return await setGroup(data)
   },
 }))

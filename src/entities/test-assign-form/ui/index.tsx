@@ -52,10 +52,10 @@ export default function TestAssignForm() {
             store.setTestId(selectedIds[0])
           }}
         />
-        <div className="flex gap-2 items-center">
-          <Button text="Посмотреть вопросы" color="secondary" />
-          <Button text="Редактировать" color="secondary" />
-        </div>
+        {/*<div className="flex gap-2 items-center">*/}
+        {/*  <Button text="Посмотреть вопросы" color="secondary" />*/}
+        {/*  <Button text="Редактировать" color="secondary" />*/}
+        {/*</div>*/}
         <div className="flex flex-col gap-2">
           <h2 className="font-semibold">Настройки</h2>
           <Checkbox

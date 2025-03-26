@@ -5,17 +5,19 @@ import { setTag } from '@/shared/api'
 type TagStore = {
   name: string
   setName: (name: string) => void
-  submit: () => Promise<void>
+  submit: () => Promise<{ success: boolean }>
+  reset: () => void
 }
 
 export const useTagStore = create<TagStore>((set, get) => ({
   name: '',
   setName: (name: string) => set({ name }),
+  reset: () => set({ name: '' }),
   submit: async () => {
     const { name } = get()
     const tag: Tag = {
       name: name,
     }
-    await setTag(tag)
+    return await setTag(tag)
   },
 }))
