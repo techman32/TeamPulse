@@ -17,7 +17,7 @@ export default function DropdownTemplates({ selected, onSelectAction }: Dropdown
   }, [])
 
   const fetchGroups = async () => {
-    const { templates } = await getTemplates(10, 0)
+    const { templates } = await getTemplates(10, 0, '')
     if (templates) setTemplates(templates)
   }
 
