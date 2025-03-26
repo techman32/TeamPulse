@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.8.1",
     "chart.js": "^4.4.8",
     "classnames": "^2.5.1",
     "framer-motion": "^12.5.0",
